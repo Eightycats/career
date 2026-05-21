@@ -44,37 +44,6 @@
     </svg>
   </a>
 
-  <template id="project-template">
-    <article class="project-card">
-      <div class="hero-shell">
-        <div class="media-stack">
-          <div class="primary-media-wrap">
-            <a class="primary-media-link" href="#" target="_blank" rel="noreferrer">
-              <img class="primary-media" alt="" />
-            </a>
-          </div>
-          <div class="thumb-grid"></div>
-        </div>
-      </div>
-      <div class="project-copy">
-        <p class="period"></p>
-        <div class="project-header">
-          <a class="logo-link" href="#" target="_blank" rel="noreferrer">
-            <img class="company-logo" alt="" />
-          </a>
-          <div class="heading-block">
-            <a class="copy-link title-link" href="#" target="_blank" rel="noreferrer">
-              <h2></h2>
-            </a>
-            <a class="copy-link description-link" href="#" target="_blank" rel="noreferrer">
-              <p class="description"></p>
-            </a>
-          </div>
-        </div>
-      </div>
-    </article>
-  </template>
-
   <script>
     async function loadCareer() {
       const response = await fetch("career.json", { cache: "no-store" });
@@ -107,26 +76,6 @@
       return [];
     }
 
-    function imageShape(image) {
-      const [width, height] = String(image.aspect || '').split('/').map((value) => Number(value.trim()));
-      if (!width || !height) return '';
-      const ratio = width / height;
-      if (ratio >= 1.35) return 'image-card-wide';
-      if (ratio <= 0.9) return 'image-card-portrait';
-      return 'image-card-square';
-    }
-
-    function prepareImageCard(card, image) {
-      card.classList.add('image-card');
-      if (image.aspect) card.style.setProperty('--card-ratio', image.aspect);
-      const shape = imageShape(image);
-      if (shape) card.classList.add(shape);
-    }
-
-    function allImagesWide(images) {
-      return images.length > 1 && images.every((image) => imageShape(image) === 'image-card-wide');
-    }
-
     function deviceStore() {
       const agent = navigator.userAgent || '';
       const platform = navigator.platform || '';
@@ -143,78 +92,201 @@
       return image.links[store] || image.links.apple || image.links.android || image.url || fallbackUrl || '';
     }
 
-    function renderProject(project, index) {
-      const template = document.getElementById("project-template");
-      const node = template.content.firstElementChild.cloneNode(true);
-      node.classList.add(index % 2 === 0 ? "from-left" : "from-right");
+    // Per-project fan configs.
+    // sceneHeight: height of the fan-area in px. Cards sized to fit within it (no overflow into next card).
+    // fromRight: override the index-based alternation when needed.
+    // Cards: widthPct is % of fan-area width; aspect "W/H"; top/left are % of fan-area.
+    const FAN_CONFIGS = {
+      "Limit Break": {
+        // 2 wide images: hero big, stadium peeking behind-right, both contained
+        sceneHeight: 460,
+        cards: [
+          { widthPct: 68, aspect: "1000/375", rotate: -4, top: "8%",  left: "2%",  zIndex: 3 },
+          { widthPct: 62, aspect: "1000/382", rotate:  5, top: "28%", left: "22%", zIndex: 2 },
+        ]
+      },
+      "Machine Zone": {
+        // 3 portrait cards fanned like a hand of playing cards
+        sceneHeight: 500,
+        cards: [
+          { widthPct: 26, aspect: "250/385",  rotate: -11, top: "5%",  left: "2%",  zIndex: 4 },
+          { widthPct: 26, aspect: "250/385",  rotate:   0, top: "2%",  left: "24%", zIndex: 3 },
+          { widthPct: 26, aspect: "735/1100", rotate:  11, top: "5%",  left: "46%", zIndex: 2 },
+        ]
+      },
+      "SEGA Networks": {
+        // wide Nadder card dominant, Puyo Puyo tucked behind and to the right
+        sceneHeight: 460,
+        cards: [
+          { widthPct: 62, aspect: "1000/752",  rotate: -3, top: "6%",  left: "2%",  zIndex: 3 },
+          { widthPct: 46, aspect: "1448/1086", rotate:  7, top: "20%", left: "38%", zIndex: 2 },
+        ]
+      },
+      "Three Rings": {
+        // Single Puzzle Pirates card. Sized so it never overflows sceneHeight.
+        // At typical viewport, fanArea ~= 850px wide. 60% = 510px. Height = 510/(600/438) = 372px.
+        // 5% top offset = 23px. Bottom = 395px < 480px. No overflow. ✓
+        sceneHeight: 480,
+        cards: [
+          { widthPct: 60, aspect: "600/438", rotate: -2, top: "5%", left: "6%", zIndex: 2 },
+        ]
+      },
+      "Perpetual Entertainment": {
+        // Swapped to from-left so hero is on the right, away from Three Rings' fan area.
+        // Single portrait card centered in its fan area.
+        fromRight: false,
+        sceneHeight: 480,
+        cards: [
+          { widthPct: 42, aspect: "352/500", rotate: 3, top: "5%", left: "28%", zIndex: 2 },
+        ]
+      },
+    };
 
-      node.querySelector('.period').textContent = project.period || '';
-      node.querySelector('h2').textContent = project.name || 'Untitled Project';
-      node.querySelector('.description').textContent = project.description || '';
+    function aspectRatio(str) {
+      const [w, h] = str.split('/').map(Number);
+      return w / h;
+    }
+
+    function buildFanArea(images, project, fromRight) {
+      const cfg = FAN_CONFIGS[project.name];
+      const fanArea = document.createElement('div');
+      fanArea.className = 'fan-area';
+
+      if (!cfg) return fanArea;
+
+      fanArea.style.minHeight = cfg.sceneHeight + 'px';
+      fanArea.style.height = cfg.sceneHeight + 'px';
+
+      cfg.cards.forEach((cardCfg, i) => {
+        const image = images[i];
+        if (!image) return;
+
+        const href = imageLink(image, project.url);
+        const card = document.createElement('div');
+        card.className = 'fan-card';
+
+        const ratio = aspectRatio(cardCfg.aspect);
+        // width as % of fan-area, height derived from aspect
+        card.style.cssText = `
+          position: absolute;
+          width: ${cardCfg.widthPct}%;
+          aspect-ratio: ${ratio};
+          top: ${cardCfg.top};
+          left: ${fromRight ? '' : cardCfg.left};
+          right: ${fromRight ? cardCfg.left : ''};
+          transform: rotate(${cardCfg.rotate}deg);
+          z-index: ${cardCfg.zIndex};
+          transform-origin: center center;
+        `;
+
+        card.addEventListener('mouseenter', () => {
+          card.style.transform = `rotate(${cardCfg.rotate}deg) translateY(-12px) scale(1.03)`;
+          card.style.zIndex = 20;
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = `rotate(${cardCfg.rotate}deg)`;
+          card.style.zIndex = cardCfg.zIndex;
+        });
+
+        const inner = href ? document.createElement('a') : document.createElement('div');
+        inner.style.cssText = 'display:block;width:100%;height:100%;';
+        if (href) {
+          inner.href = href;
+          inner.target = '_blank';
+          inner.rel = 'noreferrer';
+        }
+        const img = document.createElement('img');
+        img.src = image.src;
+        img.alt = image.alt;
+        img.style.cssText = 'display:block;width:100%;height:100%;object-fit:cover;';
+        inner.appendChild(img);
+        card.appendChild(inner);
+        fanArea.appendChild(card);
+      });
+
+      return fanArea;
+    }
+
+    function renderProject(project, index) {
+      const cfg = FAN_CONFIGS[project.name];
+      const fromRight = (cfg && cfg.fromRight !== undefined) ? cfg.fromRight : (index % 2 !== 0);
+      const article = document.createElement('article');
+      article.className = 'project-card ' + (fromRight ? 'from-right' : 'from-left');
 
       const images = normalizeImages(project);
-      const heroShell = node.querySelector('.hero-shell');
-      if (images.length > 0) {
-        if (Array.isArray(project.projectImages) && project.projectImages.length > 0) {
-          node.classList.add('project-gallery');
-          if (allImagesWide(images)) node.classList.add('gallery-wide-stack');
-        }
-        const primary = images[0];
-        const primaryImg = node.querySelector('.primary-media');
-        const primaryLink = node.querySelector('.primary-media-link');
-        const primaryWrap = node.querySelector('.primary-media-wrap');
-        prepareImageCard(primaryWrap, primary);
-        primaryImg.src = primary.src;
-        primaryImg.alt = primary.alt;
-        const primaryHref = imageLink(primary, project.url);
-        if (primaryHref) primaryLink.href = primaryHref; else hideLink(primaryLink);
 
-        const thumbGrid = node.querySelector('.thumb-grid');
-        images.slice(1).forEach((image) => {
-          const href = imageLink(image, project.url);
-          const wrap = document.createElement(href ? 'a' : 'div');
-          wrap.className = 'thumb-card';
-          prepareImageCard(wrap, image);
-          if (href) {
-            wrap.href = href;
-            wrap.target = '_blank';
-            wrap.rel = 'noreferrer';
-          }
-          const img = document.createElement('img');
-          img.className = 'thumb-image';
-          img.src = image.src;
-          img.alt = image.alt;
-          wrap.appendChild(img);
-          thumbGrid.appendChild(wrap);
-        });
-        if (images.length <= 1) thumbGrid.remove();
-      } else {
-        node.classList.add('no-hero');
-        heroShell.remove();
-      }
+      // Copy panel
+      const copy = document.createElement('div');
+      copy.className = 'project-copy';
 
-      const logoImg = node.querySelector('.company-logo');
-      const logoLink = node.querySelector('.logo-link');
+      const period = document.createElement('p');
+      period.className = 'period';
+      period.textContent = project.period || '';
+      copy.appendChild(period);
+
+      const header = document.createElement('div');
+      header.className = 'project-header';
+
       const companyLogo = project.companyLogo || project.logoImage || '';
       if (companyLogo) {
+        const logoLink = document.createElement('a');
+        logoLink.className = 'logo-link';
+        if (project.url) { logoLink.href = project.url; logoLink.target = '_blank'; logoLink.rel = 'noreferrer'; }
+        const logoImg = document.createElement('img');
+        logoImg.className = 'company-logo';
         logoImg.src = companyLogo;
         logoImg.alt = `${project.name || 'Company'} logo`;
-        if (project.url) logoLink.href = project.url; else hideLink(logoLink);
-      } else {
-        logoLink.remove();
+        logoLink.appendChild(logoImg);
+        header.appendChild(logoLink);
       }
 
-      const titleLink = node.querySelector('.title-link');
-      const descLink = node.querySelector('.description-link');
-      if (project.url) {
-        titleLink.href = project.url;
-        descLink.href = project.url;
+      const headingBlock = document.createElement('div');
+      headingBlock.className = 'heading-block';
+
+      const titleLink = document.createElement('a');
+      titleLink.className = 'copy-link title-link';
+      if (project.url) { titleLink.href = project.url; titleLink.target = '_blank'; titleLink.rel = 'noreferrer'; }
+      const h2 = document.createElement('h2');
+      h2.textContent = project.name || 'Untitled Project';
+      titleLink.appendChild(h2);
+      headingBlock.appendChild(titleLink);
+      header.appendChild(headingBlock);
+
+      // Description is a full-width row below logo+title
+      const descLink = document.createElement('a');
+      descLink.className = 'copy-link description-link';
+      descLink.style.cssText = 'width:100%;flex-basis:100%;';
+      if (project.url) { descLink.href = project.url; descLink.target = '_blank'; descLink.rel = 'noreferrer'; }
+      const desc = document.createElement('p');
+      desc.className = 'description';
+      desc.style.margin = '0';
+      desc.textContent = project.description || '';
+      descLink.appendChild(desc);
+      header.appendChild(descLink);
+
+      copy.appendChild(header);
+
+      if (images.length === 0) {
+        article.classList.add('no-hero');
+        const scene = document.createElement('div');
+        scene.className = 'card-scene';
+        scene.appendChild(copy);
+        article.appendChild(scene);
       } else {
-        hideLink(titleLink);
-        hideLink(descLink);
+        const scene = document.createElement('div');
+        scene.className = 'card-scene';
+        const fanArea = buildFanArea(images, project, fromRight);
+        if (fromRight) {
+          scene.appendChild(fanArea);
+          scene.appendChild(copy);
+        } else {
+          scene.appendChild(copy);
+          scene.appendChild(fanArea);
+        }
+        article.appendChild(scene);
       }
 
-      return node;
+      return article;
     }
 
     function setupRevealAnimation() {
@@ -222,7 +294,7 @@
         entries.forEach(entry => {
           if (entry.isIntersecting) entry.target.classList.add('visible');
         });
-      }, { threshold: 0.2 });
+      }, { threshold: 0.15 });
       document.querySelectorAll('.project-card').forEach(card => observer.observe(card));
     }
 
