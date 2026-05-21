@@ -21,7 +21,9 @@ body {
   color: var(--ink);
   background:
     radial-gradient(circle at 20% 20%, rgba(255,255,255,.65) 0 8%, transparent 9%),
-    linear-gradient(var(--sky) 0 var(--horizon-y), var(--grass) var(--horizon-y));
+    linear-gradient(var(--sky) 0 var(--horizon-y), var(--grass) var(--horizon-y)) var(--grass);
+  background-size: 100% 100%, 100% 100%;
+  background-repeat: no-repeat, no-repeat;
   overflow-x: hidden;
 }
 
@@ -120,14 +122,14 @@ h1 {
 .dirt-path-shadow, .dirt-path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .dirt-path-shadow { stroke: rgba(82, 53, 32, .25); stroke-width: 18; transform: translateY(4px); }
 .dirt-path { stroke: var(--path); stroke-width: 15; filter: drop-shadow(0 6px 0 rgba(92, 55, 31, .22)); }
-.timeline { position: relative; z-index: 5; max-width: 1500px; margin: 0 auto; }
+.timeline { position: relative; z-index: 5; max-width: 1700px; margin: 0 auto; }
 
 .project-card {
   min-height: 680px;
   position: relative;
   z-index: 5;
   display: grid;
-  grid-template-columns: minmax(320px, 560px) minmax(340px, 620px);
+  grid-template-columns: minmax(300px, 520px) minmax(520px, 760px);
   gap: clamp(1.5rem, 5vw, 5rem);
   align-items: center;
   margin-bottom: 10rem;
@@ -136,16 +138,16 @@ h1 {
   transition: opacity .7s ease, transform .7s ease;
 }
 .project-card.visible { opacity: 1; transform: translateY(0) scale(1); }
-.project-card.from-right { grid-template-columns: minmax(340px, 620px) minmax(320px, 560px); }
+.project-card.from-right { grid-template-columns: minmax(520px, 760px) minmax(300px, 520px); }
 .project-card.from-right .hero-shell { grid-column: 2; }
 .project-card.from-right .project-copy { grid-column: 1; grid-row: 1; }
 .project-card.project-gallery {
-  grid-template-columns: minmax(0, 1fr) minmax(260px, 420px);
+  grid-template-columns: minmax(0, 1fr) minmax(520px, 680px);
   gap: clamp(1rem, 2vw, 2rem);
   min-height: 300px;
 }
 .project-card.project-gallery.from-right {
-  grid-template-columns: minmax(260px, 420px) minmax(0, 1fr);
+  grid-template-columns: minmax(520px, 680px) minmax(0, 1fr);
 }
 .project-card.gallery-wide-stack {
   grid-template-columns: minmax(520px, 640px) minmax(320px, 420px);
