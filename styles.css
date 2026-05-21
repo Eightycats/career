@@ -127,7 +127,7 @@ h1 {
   position: relative;
   z-index: 5;
   display: grid;
-  grid-template-columns: minmax(320px, 560px) minmax(280px, 480px);
+  grid-template-columns: minmax(320px, 560px) minmax(340px, 620px);
   gap: clamp(1.5rem, 5vw, 5rem);
   align-items: center;
   margin-bottom: 10rem;
@@ -136,7 +136,7 @@ h1 {
   transition: opacity .7s ease, transform .7s ease;
 }
 .project-card.visible { opacity: 1; transform: translateY(0) scale(1); }
-.project-card.from-right { grid-template-columns: minmax(280px, 480px) minmax(320px, 560px); }
+.project-card.from-right { grid-template-columns: minmax(340px, 620px) minmax(320px, 560px); }
 .project-card.from-right .hero-shell { grid-column: 2; }
 .project-card.from-right .project-copy { grid-column: 1; grid-row: 1; }
 .project-card.project-gallery {
@@ -157,7 +157,7 @@ h1 {
 }
 .project-card.no-hero,
 .project-card.no-hero.from-right {
-  grid-template-columns: minmax(280px, 520px);
+  grid-template-columns: minmax(340px, 680px);
   justify-content: center;
 }
 .project-card.no-hero .project-copy {
@@ -380,43 +380,49 @@ a:active {
 .tree {
   position: absolute;
   z-index: 0;
-  width: var(--decor-width, 240px);
-  aspect-ratio: var(--decor-ratio, 1);
+  width: var(--decor-width, 140px);
+  aspect-ratio: 1;
   background: var(--decor-image, none) center / contain no-repeat;
   pointer-events: none;
+  mix-blend-mode: multiply;
 }
+/* Positions are percentages so they track the SVG path (which is also %-based).
+   Path center x in SVG 0-100 coords at each depth, decorations placed just off the path edge. */
 .tree-1 {
-  --decor-image: url("assets/decor-treez.png");
-  --decor-width: 230px;
-  left: 3vw;
+  --decor-image: url("assets/decor-trees.png");
+  --decor-width: 155px;
+  left: 28%;   /* path center ~49%, placed off left edge */
   top: 720px;
 }
 .tree-2 {
-  --decor-image: url("assets/decor-farm.png");
-  --decor-width: 320px;
-  --decor-ratio: 1.7;
-  right: 2vw;
+  --decor-image: url("assets/decor-rocks-grass.png");
+  --decor-width: 110px;
+  left: 60%;   /* path center ~50%, placed off right edge */
   top: 1540px;
 }
 .tree-3 {
-  --decor-image: url("assets/decor-castle.png");
-  --decor-width: 230px;
-  left: 2vw;
+  --decor-image: url("assets/decor-bush.png");
+  --decor-width: 120px;
+  left: 53%;   /* path center ~64%, placed off left edge */
   top: 2920px;
 }
 .tree-4 {
-  --decor-image: url("assets/decor-pond.png");
-  --decor-width: 300px;
-  --decor-ratio: 1.8;
-  right: 2vw;
-  top: 4820px;
+  --decor-image: url("assets/decor-tree.png");
+  --decor-width: 130px;
+  left: 74%;   /* path center ~64%, placed off right edge */
+  top: 3760px;
 }
 .tree-5 {
-  --decor-image: url("assets/decor-bridge.png");
-  --decor-width: 300px;
-  --decor-ratio: 1.5;
-  left: 2vw;
-  top: 5200px;
+  --decor-image: url("assets/decor-rocks-pile.png");
+  --decor-width: 110px;
+  left: 26%;   /* path center ~42%, placed off left edge */
+  top: 4820px;
+}
+.tree-6 {
+  --decor-image: url("assets/decor-bushes.png");
+  --decor-width: 140px;
+  left: 61%;   /* path center ~51%, placed off right edge */
+  top: 5800px;
 }
 
 @media (max-width: 820px) {
@@ -458,7 +464,7 @@ a:active {
   .project-gallery .thumb-card:nth-child(2) {
     --card-overlap: -2rem;
   }
-  .project-copy { width: 100%; max-width: 520px; min-width: 0; margin: 0 auto; }
+  .project-copy { width: 100%; max-width: 680px; min-width: 0; margin: 0 auto; }
   .primary-media { max-height: 320px; }
   .project-header { grid-template-columns: 1fr; }
   .company-logo { width: 80px; height: 80px; }
