@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Career Path</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <main>
+    <header class="site-header">
+      <div class="cloud cloud-a"></div>
+      <div class="cloud cloud-b"></div>
+      <p class="eyebrow">Career History</p>
+      <h1 id="site-title">Matt Jensen</h1>
+      <p id="site-intro" class="intro">Loading…</p>
+      <div class="scroll-hint">scroll down</div>
+    </header>
+
+    <section class="trail-wrap" aria-label="Career timeline">
+      <svg class="trail-svg" viewBox="0 0 100 1000" preserveAspectRatio="none" aria-hidden="true">
+        <path class="dirt-path-shadow"
+          d="M50 0 C15 90 85 165 54 245 C28 320 20 390 59 470 C92 545 70 625 42 700 C12 780 84 855 52 1000" />
+        <path class="dirt-path"
+          d="M50 0 C15 90 85 165 54 245 C28 320 20 390 59 470 C92 545 70 625 42 700 C12 780 84 855 52 1000" />
+      </svg>
+
+      <div class="tree tree-1"></div>
+      <div class="tree tree-2"></div>
+      <div class="tree tree-3"></div>
+      <div class="tree tree-4"></div>
+      <div class="tree tree-5"></div>
+
+      <div id="timeline" class="timeline"></div>
+    </section>
+  </main>
+
+  <template id="project-template">
+    <article class="project-card">
+      <div class="stone"></div>
+      <div class="hero-shell">
+        <div class="media-stack">
+          <div class="primary-media-wrap">
+            <a class="primary-media-link" href="#" target="_blank" rel="noreferrer">
+              <img class="primary-media" alt="" />
+            </a>
+          </div>
+          <div class="thumb-grid"></div>
+        </div>
+      </div>
+      <div class="project-copy">
+        <p class="period"></p>
+        <div class="project-header">
+          <a class="logo-link" href="#" target="_blank" rel="noreferrer">
+            <img class="company-logo" alt="" />
+          </a>
+          <div class="heading-block">
+            <a class="copy-link title-link" href="#" target="_blank" rel="noreferrer">
+              <h2></h2>
+            </a>
+            <a class="copy-link description-link" href="#" target="_blank" rel="noreferrer">
+              <p class="description"></p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script>
+    async function loadCareer() {
+      const response = await fetch("career.json", { cache: "no-store" });
+      if (!response.ok) throw new Error("Could not load career.json");
+      return response.json();
+    }
+
+    function hideLink(anchor) {
+      const fragment = document.createDocumentFragment();
+      while (anchor.firstChild) fragment.appendChild(anchor.firstChild);
+      anchor.replaceWith(fragment);
+    }
+
+    function normalizeImages(project) {
+      if (Array.isArray(project.projectImages) && project.projectImages.length > 0) {
+        return project.projectImages.map((entry) => {
+          if (typeof entry === 'string') return { src: entry, alt: `${project.name} project image` };
+          return {
+            src: entry.src || entry.image || '',
+            alt: entry.alt || `${project.name} project image`
+          };
+        }).filter(Boolean);
+      }
+      if (project.heroImage) {
+        return [{ src: project.heroImage, alt: `${project.name} hero image` }];
+      }
+      return [{ src: 'assets/placeholder.svg', alt: 'Project hero image' }];
+    }
+
+    function renderProject(project, index) {
+      const template = document.getElementById("project-template");
+      const node = template.content.firstElementChild.cloneNode(true);
+      node.classList.add(index % 2 === 0 ? "from-left" : "from-right");
+
+      node.querySelector('.period').textContent = project.period || '';
+      node.querySelector('h2').textContent = project.name || 'Untitled Project';
+      node.querySelector('.description').textContent = project.description || '';
+
+      const images = normalizeImages(project);
+      const primary = images[0];
+      const primaryImg = node.querySelector('.primary-media');
+      const primaryLink = node.querySelector('.primary-media-link');
+      primaryImg.src = primary.src;
+      primaryImg.alt = primary.alt;
+      if (project.url) primaryLink.href = project.url; else hideLink(primaryLink);
+
+      const thumbGrid = node.querySelector('.thumb-grid');
+      images.slice(1).forEach((image) => {
+        const wrap = document.createElement(project.url ? 'a' : 'div');
+        wrap.className = 'thumb-card';
+        if (project.url) {
+          wrap.href = project.url;
+          wrap.target = '_blank';
+          wrap.rel = 'noreferrer';
+        }
+        const img = document.createElement('img');
+        img.className = 'thumb-image';
+        img.src = image.src;
+        img.alt = image.alt;
+        wrap.appendChild(img);
+        thumbGrid.appendChild(wrap);
+      });
+      if (images.length <= 1) thumbGrid.remove();
+
+      const logoImg = node.querySelector('.company-logo');
+      const logoLink = node.querySelector('.logo-link');
+      const companyLogo = project.companyLogo || project.logoImage || '';
+      if (companyLogo) {
+        logoImg.src = companyLogo;
+        logoImg.alt = `${project.name || 'Company'} logo`;
+        if (project.url) logoLink.href = project.url; else hideLink(logoLink);
+      } else {
+        logoLink.remove();
+      }
+
+      const titleLink = node.querySelector('.title-link');
+      const descLink = node.querySelector('.description-link');
+      if (project.url) {
+        titleLink.href = project.url;
+        descLink.href = project.url;
+      } else {
+        hideLink(titleLink);
+        hideLink(descLink);
+      }
+
+      return node;
+    }
+
+    function setupRevealAnimation() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+      }, { threshold: 0.2 });
+      document.querySelectorAll('.project-card').forEach(card => observer.observe(card));
+    }
+
+    loadCareer()
+      .then(data => {
+        document.title = data.siteTitle || 'Career Path';
+        document.getElementById('site-title').textContent = data.siteTitle || 'Career Path';
+        document.getElementById('site-intro').textContent = data.intro || '';
+        const timeline = document.getElementById('timeline');
+        timeline.innerHTML = '';
+        (data.projects || []).forEach((project, index) => timeline.appendChild(renderProject(project, index)));
+        setupRevealAnimation();
+      })
+      .catch(error => {
+        document.getElementById('site-intro').textContent = 'Could not load career.json. Make sure you are serving this folder with a local web server.';
+        console.error(error);
+      });
+  </script>
+</body>
+
+</html>

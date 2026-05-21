@@ -1,0 +1,66 @@
+{
+  "siteTitle": "Matt Jensen \u2014 Career Path",
+  "intro": "A winding path through the companies, games, platforms, and tools I have helped build.",
+  "projects": [
+    {
+      "name": "Limit Break",
+      "period": "2022\u20132025",
+      "heroImage": "assets/limit-break.svg",
+      "url": "https://limitbreak.com/en/products/puzzle-panic",
+      "description": "Founding engineer on Match 3 puzzle dungeon crawler.",
+      "companyLogo": "assets/limit-break-logo.jpg",
+      "projectImages": [
+        {
+          "src": "assets/puzzle-panic-hero.png",
+          "alt": "Puzzle Panic promotional artwork featuring characters and the game logo"
+        },
+        {
+          "src": "assets/puzzle-panic-stadium.png",
+          "alt": "Puzzle Panic episode environment screenshot showing a colorful stadium"
+        }
+      ]
+    },
+    {
+      "name": "Bad Rabbit / Huron Portal",
+      "period": "2020\u20132021",
+      "heroImage": "assets/bad-rabbit.svg",
+      "url": "",
+      "description": "Consulted on a legacy healthcare/university portal platform and a modern replacement application. Built Python scripts to extract and round-trip JavaScript from XML exports, investigated internal .NET APIs, and contributed TypeScript/React features and fixes."
+    },
+    {
+      "name": "Machine Zone",
+      "period": "2016\u20132018",
+      "heroImage": "assets/machine-zone.svg",
+      "url": "",
+      "description": "Worked on large-scale mobile strategy titles including Game of War, Mobile Strike, and Final Fantasy XV: A New Empire. Implemented client Lua/RML UI features, coordinated server-side PHP parity, and built reusable UI framework patterns for faster feature development."
+    },
+    {
+      "name": "Three Rings / SEGA Networks",
+      "period": "2008\u20132016",
+      "heroImage": "assets/three-rings.svg",
+      "url": "",
+      "description": "Built and maintained online games and game-adjacent systems including Whirled and Puzzle Pirates. Added puzzle competitions, payment integrations, in-game purchase APIs, promotion systems, billing tools, and supported a long-running live game with substantial daily traffic."
+    },
+    {
+      "name": "Perpetual Entertainment",
+      "period": "2007\u20132008",
+      "heroImage": "assets/perpetual.svg",
+      "url": "",
+      "description": "Worked on a shared MMO platform team building common services for friends, guilds, billing, virtual currency, telemetry, and administration. Contributed Java services, PostgreSQL-backed billing systems, audit trails, and web admin interfaces."
+    },
+    {
+      "name": "Wily Technology / CA",
+      "period": "2005\u20132007",
+      "heroImage": "assets/wily.svg",
+      "url": "",
+      "description": "Built QA tooling for application performance monitoring products. Created simulation tools that generated network, database, and CPU latency so teams could test runtime instrumentation and dashboard behavior under controlled conditions."
+    },
+    {
+      "name": "NightFire Software / Neustar",
+      "period": "1998\u20132003",
+      "heroImage": "assets/nightfire.svg",
+      "url": "",
+      "description": "Built telecom integration and order-management software for deregulated services. Worked on XML/EDI messaging, CORBA, HTTP/FTP transports, business rules engines, workflow tooling, and desktop authoring tools for complex operational processes."
+    }
+  ]
+}
