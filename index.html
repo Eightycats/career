@@ -13,10 +13,8 @@
     <header class="site-header">
       <div class="cloud cloud-a"></div>
       <div class="cloud cloud-b"></div>
-      <p class="eyebrow">Career History</p>
       <h1 id="site-title">Matt Jensen</h1>
       <p id="site-intro" class="intro">Loading…</p>
-      <div class="scroll-hint">scroll down</div>
     </header>
 
     <section class="trail-wrap" aria-label="Career timeline">
@@ -37,9 +35,16 @@
     </section>
   </main>
 
+  <a class="linkedin-float" href="https://www.linkedin.com/in/mattjensen/" target="_blank" rel="noreferrer"
+    aria-label="Matt Jensen on LinkedIn">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path
+        d="M20.45 20.45h-3.56v-5.58c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.44-2.13 2.94v5.68H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12Zm1.78 13.02H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0Z" />
+    </svg>
+  </a>
+
   <template id="project-template">
     <article class="project-card">
-      <div class="stone"></div>
       <div class="hero-shell">
         <div class="media-stack">
           <div class="primary-media-wrap">
@@ -88,14 +93,53 @@
           if (typeof entry === 'string') return { src: entry, alt: `${project.name} project image` };
           return {
             src: entry.src || entry.image || '',
-            alt: entry.alt || `${project.name} project image`
+            alt: entry.alt || `${project.name} project image`,
+            aspect: entry.aspect || '',
+            url: entry.url || '',
+            links: entry.links || null
           };
         }).filter(Boolean);
       }
       if (project.heroImage) {
         return [{ src: project.heroImage, alt: `${project.name} hero image` }];
       }
-      return [{ src: 'assets/placeholder.svg', alt: 'Project hero image' }];
+      return [];
+    }
+
+    function imageShape(image) {
+      const [width, height] = String(image.aspect || '').split('/').map((value) => Number(value.trim()));
+      if (!width || !height) return '';
+      const ratio = width / height;
+      if (ratio >= 1.35) return 'image-card-wide';
+      if (ratio <= 0.9) return 'image-card-portrait';
+      return 'image-card-square';
+    }
+
+    function prepareImageCard(card, image) {
+      card.classList.add('image-card');
+      if (image.aspect) card.style.setProperty('--card-ratio', image.aspect);
+      const shape = imageShape(image);
+      if (shape) card.classList.add(shape);
+    }
+
+    function allImagesWide(images) {
+      return images.length > 1 && images.every((image) => imageShape(image) === 'image-card-wide');
+    }
+
+    function deviceStore() {
+      const agent = navigator.userAgent || '';
+      const platform = navigator.platform || '';
+      const hasTouch = navigator.maxTouchPoints > 1;
+      if (/android/i.test(agent)) return 'android';
+      if (/iPad|iPhone|iPod/i.test(agent)) return 'apple';
+      if (/Mac/i.test(platform) && hasTouch) return 'apple';
+      return 'apple';
+    }
+
+    function imageLink(image, fallbackUrl) {
+      if (!image.links) return image.url || fallbackUrl || '';
+      const store = deviceStore();
+      return image.links[store] || image.links.apple || image.links.android || image.url || fallbackUrl || '';
     }
 
     function renderProject(project, index) {
@@ -108,30 +152,45 @@
       node.querySelector('.description').textContent = project.description || '';
 
       const images = normalizeImages(project);
-      const primary = images[0];
-      const primaryImg = node.querySelector('.primary-media');
-      const primaryLink = node.querySelector('.primary-media-link');
-      primaryImg.src = primary.src;
-      primaryImg.alt = primary.alt;
-      if (project.url) primaryLink.href = project.url; else hideLink(primaryLink);
-
-      const thumbGrid = node.querySelector('.thumb-grid');
-      images.slice(1).forEach((image) => {
-        const wrap = document.createElement(project.url ? 'a' : 'div');
-        wrap.className = 'thumb-card';
-        if (project.url) {
-          wrap.href = project.url;
-          wrap.target = '_blank';
-          wrap.rel = 'noreferrer';
+      const heroShell = node.querySelector('.hero-shell');
+      if (images.length > 0) {
+        if (Array.isArray(project.projectImages) && project.projectImages.length > 0) {
+          node.classList.add('project-gallery');
+          if (allImagesWide(images)) node.classList.add('gallery-wide-stack');
         }
-        const img = document.createElement('img');
-        img.className = 'thumb-image';
-        img.src = image.src;
-        img.alt = image.alt;
-        wrap.appendChild(img);
-        thumbGrid.appendChild(wrap);
-      });
-      if (images.length <= 1) thumbGrid.remove();
+        const primary = images[0];
+        const primaryImg = node.querySelector('.primary-media');
+        const primaryLink = node.querySelector('.primary-media-link');
+        const primaryWrap = node.querySelector('.primary-media-wrap');
+        prepareImageCard(primaryWrap, primary);
+        primaryImg.src = primary.src;
+        primaryImg.alt = primary.alt;
+        const primaryHref = imageLink(primary, project.url);
+        if (primaryHref) primaryLink.href = primaryHref; else hideLink(primaryLink);
+
+        const thumbGrid = node.querySelector('.thumb-grid');
+        images.slice(1).forEach((image) => {
+          const href = imageLink(image, project.url);
+          const wrap = document.createElement(href ? 'a' : 'div');
+          wrap.className = 'thumb-card';
+          prepareImageCard(wrap, image);
+          if (href) {
+            wrap.href = href;
+            wrap.target = '_blank';
+            wrap.rel = 'noreferrer';
+          }
+          const img = document.createElement('img');
+          img.className = 'thumb-image';
+          img.src = image.src;
+          img.alt = image.alt;
+          wrap.appendChild(img);
+          thumbGrid.appendChild(wrap);
+        });
+        if (images.length <= 1) thumbGrid.remove();
+      } else {
+        node.classList.add('no-hero');
+        heroShell.remove();
+      }
 
       const logoImg = node.querySelector('.company-logo');
       const logoLink = node.querySelector('.logo-link');
