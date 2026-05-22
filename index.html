@@ -92,52 +92,50 @@
       return image.links[store] || image.links.apple || image.links.android || image.url || fallbackUrl || '';
     }
 
-    // Per-project fan configs.
-    // sceneHeight: height of the fan-area in px. Cards sized to fit within it (no overflow into next card).
-    // fromRight: override the index-based alternation when needed.
-    // Cards: widthPct is % of fan-area width; aspect "W/H"; top/left are % of fan-area.
+    // Per-project hardcoded fan layouts.
+    // sceneHeight: fan-area height in px on desktop. Cards must fit within it.
+    // Cards: widthPct = % of fan-area width; aspect = "W/H"; top/left = % of fan-area.
+    //   When fromRight, left values are mirrored to right (so cards always hug the copy side).
     const FAN_CONFIGS = {
       "Limit Break": {
-        // 2 wide images: hero big, stadium peeking behind-right, both contained
+        // 2 wide landscape images: hero big on left, stadium tucked behind-right
         sceneHeight: 460,
         cards: [
           { widthPct: 68, aspect: "1000/375", rotate: -4, top: "8%",  left: "2%",  zIndex: 3 },
-          { widthPct: 62, aspect: "1000/382", rotate:  5, top: "28%", left: "22%", zIndex: 2 },
+          { widthPct: 62, aspect: "1000/382", rotate:  5, top: "30%", left: "20%", zIndex: 2 },
         ]
       },
       "Machine Zone": {
-        // 3 portrait cards fanned like a hand of playing cards
+        // 3 portrait cards splayed like a hand. All hug the left (copy) side.
         sceneHeight: 500,
         cards: [
-          { widthPct: 26, aspect: "250/385",  rotate: -11, top: "5%",  left: "2%",  zIndex: 4 },
-          { widthPct: 26, aspect: "250/385",  rotate:   0, top: "2%",  left: "24%", zIndex: 3 },
-          { widthPct: 26, aspect: "735/1100", rotate:  11, top: "5%",  left: "46%", zIndex: 2 },
+          { widthPct: 25, aspect: "250/385",  rotate: -11, top: "4%",  left: "2%",  zIndex: 4 },
+          { widthPct: 25, aspect: "250/385",  rotate:   0, top: "1%",  left: "23%", zIndex: 3 },
+          { widthPct: 25, aspect: "735/1100", rotate:  11, top: "4%",  left: "44%", zIndex: 2 },
         ]
       },
       "SEGA Networks": {
-        // wide Nadder card dominant, Puyo Puyo tucked behind and to the right
+        // Nadder card big, Puyo tucked behind. Both wide/square, hug left.
         sceneHeight: 460,
         cards: [
           { widthPct: 62, aspect: "1000/752",  rotate: -3, top: "6%",  left: "2%",  zIndex: 3 },
-          { widthPct: 46, aspect: "1448/1086", rotate:  7, top: "20%", left: "38%", zIndex: 2 },
+          { widthPct: 46, aspect: "1448/1086", rotate:  7, top: "20%", left: "36%", zIndex: 2 },
         ]
       },
       "Three Rings": {
-        // Single Puzzle Pirates card. Sized so it never overflows sceneHeight.
-        // At typical viewport, fanArea ~= 850px wide. 60% = 510px. Height = 510/(600/438) = 372px.
-        // 5% top offset = 23px. Bottom = 395px < 480px. No overflow. ✓
-        sceneHeight: 480,
+        // Single Puzzle Pirates wide card. Hug the copy side.
+        // At 850px fanArea: 60% = 510px. H = 510 / (600/438) = 372px. Top 5% = 24px. Bottom = 396px < 460px. ✓
+        sceneHeight: 460,
         cards: [
-          { widthPct: 60, aspect: "600/438", rotate: -2, top: "5%", left: "6%", zIndex: 2 },
+          { widthPct: 60, aspect: "600/438", rotate: -2, top: "6%", left: "4%", zIndex: 2 },
         ]
       },
       "Perpetual Entertainment": {
-        // Swapped to from-left so hero is on the right, away from Three Rings' fan area.
-        // Single portrait card centered in its fan area.
-        fromRight: false,
+        // Natural from-right (index 5). Fan LEFT, copy RIGHT.
+        // left value is mirrored to right: left:"5%" → right:"5%" = card hugs copy on right side.
         sceneHeight: 480,
         cards: [
-          { widthPct: 42, aspect: "352/500", rotate: 3, top: "5%", left: "28%", zIndex: 2 },
+          { widthPct: 40, aspect: "352/500", rotate: 3, top: "5%", left: "5%", zIndex: 2 },
         ]
       },
     };
@@ -154,8 +152,8 @@
 
       if (!cfg) return fanArea;
 
-      fanArea.style.minHeight = cfg.sceneHeight + 'px';
-      fanArea.style.height = cfg.sceneHeight + 'px';
+      // --scene-h drives desktop height via CSS; mobile ignores it (height: auto)
+      fanArea.style.setProperty('--scene-h', cfg.sceneHeight + 'px');
 
       cfg.cards.forEach((cardCfg, i) => {
         const image = images[i];
@@ -166,35 +164,33 @@
         card.className = 'fan-card';
 
         const ratio = aspectRatio(cardCfg.aspect);
-        // width as % of fan-area, height derived from aspect
-        card.style.cssText = `
-          position: absolute;
-          width: ${cardCfg.widthPct}%;
-          aspect-ratio: ${ratio};
-          top: ${cardCfg.top};
-          left: ${fromRight ? '' : cardCfg.left};
-          right: ${fromRight ? cardCfg.left : ''};
-          transform: rotate(${cardCfg.rotate}deg);
-          z-index: ${cardCfg.zIndex};
-          transform-origin: center center;
-        `;
+        if (ratio >= 1.35) card.classList.add('fan-card-wide');
+        else if (ratio <= 0.9) card.classList.add('fan-card-portrait');
+        else card.classList.add('fan-card-square');
 
-        card.addEventListener('mouseenter', () => {
-          card.style.transform = `rotate(${cardCfg.rotate}deg) translateY(-12px) scale(1.03)`;
-          card.style.zIndex = 20;
-        });
-        card.addEventListener('mouseleave', () => {
-          card.style.transform = `rotate(${cardCfg.rotate}deg)`;
-          card.style.zIndex = cardCfg.zIndex;
-        });
+        // CSS custom properties: desktop CSS reads these for absolute positioning.
+        // Mobile CSS overrides position/size with shape classes and ignores these.
+        card.style.setProperty('--fan-ar',  ratio);
+        card.style.setProperty('--fan-rot', cardCfg.rotate + 'deg');
+        card.style.setProperty('--fan-w',   cardCfg.widthPct + '%');
+        card.style.setProperty('--fan-top', cardCfg.top);
+        card.style.setProperty('--fan-z',   cardCfg.zIndex);
+        // Mirror left→right when fan is on left side (fromRight cards)
+        if (fromRight) {
+          card.style.setProperty('--fan-left',  'auto');
+          card.style.setProperty('--fan-right', cardCfg.left);
+        } else {
+          card.style.setProperty('--fan-left',  cardCfg.left);
+          card.style.setProperty('--fan-right', 'auto');
+        }
+
+        // z-index boost on hover (desktop only — touch devices don't fire mouseenter)
+        card.addEventListener('mouseenter', () => card.style.setProperty('--fan-z', '20'));
+        card.addEventListener('mouseleave', () => card.style.setProperty('--fan-z', cardCfg.zIndex));
 
         const inner = href ? document.createElement('a') : document.createElement('div');
         inner.style.cssText = 'display:block;width:100%;height:100%;';
-        if (href) {
-          inner.href = href;
-          inner.target = '_blank';
-          inner.rel = 'noreferrer';
-        }
+        if (href) { inner.href = href; inner.target = '_blank'; inner.rel = 'noreferrer'; }
         const img = document.createElement('img');
         img.src = image.src;
         img.alt = image.alt;
@@ -208,8 +204,7 @@
     }
 
     function renderProject(project, index) {
-      const cfg = FAN_CONFIGS[project.name];
-      const fromRight = (cfg && cfg.fromRight !== undefined) ? cfg.fromRight : (index % 2 !== 0);
+      const fromRight = index % 2 !== 0;
       const article = document.createElement('article');
       article.className = 'project-card ' + (fromRight ? 'from-right' : 'from-left');
 
@@ -266,25 +261,21 @@
 
       copy.appendChild(header);
 
+      const scene = document.createElement('div');
+      scene.className = 'card-scene';
+
       if (images.length === 0) {
         article.classList.add('no-hero');
-        const scene = document.createElement('div');
-        scene.className = 'card-scene';
         scene.appendChild(copy);
-        article.appendChild(scene);
       } else {
-        const scene = document.createElement('div');
-        scene.className = 'card-scene';
         const fanArea = buildFanArea(images, project, fromRight);
-        if (fromRight) {
-          scene.appendChild(fanArea);
-          scene.appendChild(copy);
-        } else {
-          scene.appendChild(copy);
-          scene.appendChild(fanArea);
-        }
-        article.appendChild(scene);
+        // fanArea always first in DOM so mobile (column layout) shows hero ABOVE company card.
+        // Desktop CSS uses row-reverse for from-left to visually put copy on the left.
+        scene.appendChild(fanArea);
+        scene.appendChild(copy);
       }
+
+      article.appendChild(scene);
 
       return article;
     }
