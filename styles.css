@@ -102,41 +102,52 @@ h1 { margin: 0; font-size: clamp(2.8rem, 8vw, 7rem); line-height: .92; text-shad
 }
 
 /* ─── Fan area — mobile ─── */
-/* Flex row for portrait cards (fanned hand feel), column otherwise */
 .fan-area {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 1rem 1rem 0.5rem;
-}
-/* Portrait images look best in a row fan on mobile */
-.fan-area:has(.fan-card-portrait) {
-  flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: flex-end;
-  padding: 1.25rem 1rem 0.75rem;
+  align-items: flex-start;
   gap: 0.5rem;
+  padding: 0.75rem 0.75rem 0;
 }
 
 /* ─── Fan cards — mobile ─── */
+/* All cards: no rotation, no absolute positioning, z-index via custom prop */
 .fan-card {
   display: block;
   flex: 0 0 auto;
-  aspect-ratio: var(--fan-ar, 1);
+  position: relative;
+  z-index: var(--fan-z, 1);
+  aspect-ratio: var(--fan-ar, 1.5);
   background: var(--paper);
   border: 5px solid var(--ink);
-  border-radius: 20px;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 6px 8px 0 rgba(38,51,34,.22);
-  transform: rotate(var(--fan-rot, 0deg));
-  transition: transform .2s ease, box-shadow .2s ease;
+  box-shadow: 5px 7px 0 rgba(38,51,34,.2);
+  /* No rotation on mobile — prevents all the overlap weirdness */
+  transform: none;
+  transition: box-shadow .2s ease;
 }
-/* Mobile widths by shape */
-.fan-card-wide     { width: min(92%, 460px); }
-.fan-card-portrait { width: min(30%, 150px); }
-.fan-card-square   { width: min(78%, 360px); }
+
+/* Primary card (first child): large and prominent */
+.fan-card:first-child {
+  flex: 1 1 calc(100% - 1.5rem);
+  max-width: 500px;
+}
+.fan-card-portrait:first-child {
+  /* Portrait cards: don't stretch to full width */
+  flex: 0 0 auto;
+  width: min(52%, 210px);
+}
+
+/* Secondary cards: compact thumbnails */
+.fan-card:not(:first-child) {
+  flex: 0 0 auto;
+  width: 100px;
+  aspect-ratio: 4/3;
+  border-radius: 12px;
+  border-width: 4px;
+}
 
 .fan-card img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .fan-card a   { display: block; width: 100%; height: 100%; }
@@ -145,9 +156,8 @@ h1 { margin: 0; font-size: clamp(2.8rem, 8vw, 7rem); line-height: .92; text-shad
 .project-copy {
   position: relative;
   z-index: 10;
-  /* Slide up slightly to cuddle with hero above */
-  width: calc(100% - 2rem);
-  margin: -1.75rem auto 0;
+  width: calc(100% - 1.5rem);
+  margin: 0.75rem auto 0;
   background: rgba(255,247,223,.97);
   border: 4px solid var(--ink);
   border-radius: 26px;
@@ -184,7 +194,7 @@ a, a:visited, a:hover, a:focus, a:active { color: inherit; text-decoration: none
    no blocking stacking context is created, so trees beat cards in gap areas). ─── */
 .tree {
   position: absolute;
-  z-index: 6;
+  z-index: 4;
   width: var(--decor-width, 140px);
   aspect-ratio: 1;
   background: var(--decor-image, none) center / contain no-repeat;
@@ -236,19 +246,13 @@ a, a:visited, a:hover, a:focus, a:active { color: inherit; text-decoration: none
     flex: 1 1 0;
     min-width: 0;
     position: relative;
-    display: block;  /* override mobile flex */
+    display: block;
     padding: 0;
     gap: 0;
     height: var(--scene-h, 420px);
   }
-  .fan-area:has(.fan-card-portrait) {
-    flex-direction: unset;
-    flex-wrap: unset;
-    justify-content: unset;
-    align-items: unset;
-  }
 
-  /* Fan cards: absolutely positioned on desktop */
+  /* Fan cards: absolutely positioned, rotated, precise placement on desktop */
   .fan-card {
     position: absolute;
     width: var(--fan-w, 60%);
@@ -256,11 +260,15 @@ a, a:visited, a:hover, a:focus, a:active { color: inherit; text-decoration: none
     left: var(--fan-left, auto);
     right: var(--fan-right, auto);
     z-index: var(--fan-z, 2);
+    aspect-ratio: var(--fan-ar, 1.5);
     border-radius: 22px;
     transform: rotate(var(--fan-rot, 0deg));
     cursor: pointer;
   }
-  /* Override mobile shape widths with precise per-card desktop width */
+  /* Override mobile primary/thumbnail rules — all cards use --fan-w on desktop */
+  .fan-card:first-child      { flex: unset; max-width: unset; }
+  .fan-card:not(:first-child){ flex: unset; width: var(--fan-w, 60%); aspect-ratio: var(--fan-ar, 1.5); border-radius: 22px; border-width: 5px; }
+  .fan-card-portrait:first-child { flex: unset; width: var(--fan-w, 60%); }
   .fan-card-wide, .fan-card-portrait, .fan-card-square { width: var(--fan-w, 60%); }
 
   .fan-card:hover {
