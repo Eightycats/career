@@ -209,7 +209,6 @@ body {
   width: var(--decor-w, 130px);
   background: var(--decor-img) bottom center / contain no-repeat;
   pointer-events: none;
-  mix-blend-mode: multiply;
   z-index: 1;
 }
 .horizon-decor.left  { left:  clamp(4px, 2.5vw, 2.5rem); }
