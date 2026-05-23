@@ -255,16 +255,31 @@
   </div><!-- /.timeline-scroller -->
 
   <script>
-    // Keep --header-h in sync with actual header height
+    function positionDecors() {
+      const hdr = document.querySelector('.page-header');
+      const headerH = hdr.offsetHeight;
+      const grassY = window.innerHeight * 0.7; // matches --horizon-y: 70dvh
+      document.querySelectorAll('.horizon-decor').forEach(el => {
+        const w = el.offsetWidth; // square element, width = height
+        // center element at grassY (from viewport top)
+        // containing block (.company-slide) starts at headerH from viewport top
+        // so: headerH + top + w/2 = grassY → top = grassY - headerH - w/2
+        el.style.top = Math.round(grassY - headerH - w / 2) + 'px';
+      });
+    }
+
     (function () {
       const hdr = document.querySelector('.page-header');
       function sync() {
         document.documentElement.style.setProperty('--header-h', hdr.offsetHeight + 'px');
+        positionDecors();
       }
       sync();
       new ResizeObserver(sync).observe(hdr);
       document.fonts.ready.then(sync);
     })();
+
+    window.addEventListener('resize', positionDecors);
   </script>
 
   <script>
