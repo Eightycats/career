@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat career.json | python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('siteTitle:', d.get\\('siteTitle'\\)\\); print\\('intro:', d.get\\('intro'\\)\\)\")",
+      "Bash(python3 -c \"\nfrom PIL import Image\nimport os\nfor f in ['assets/decor-bush.png', 'assets/decor-trees.png']:\n    im = Image.open\\(f\\).convert\\('RGBA'\\)\n    # check if any pixel has alpha < 255\n    has_alpha = any\\(p[3] < 255 for p in list\\(im.getdata\\(\\)\\)[:1000]\\)\n    print\\(f, 'has_transparency:', has_alpha\\)\n\" 2>/dev/null || python3 -c \"\nimport struct, zlib, os\ndef check_png_alpha\\(path\\):\n    with open\\(path,'rb'\\) as f:\n        sig = f.read\\(8\\)\n        while True:\n            try:\n                length = struct.unpack\\('>I', f.read\\(4\\)\\)[0]\n                chunk = f.read\\(4\\).decode\\(\\)\n                data = f.read\\(length\\); f.read\\(4\\)\n                if chunk == 'IHDR':\n                    ct = data[9]\n                    return ct in \\(4,6\\)  # 4=gray+alpha, 6=RGBA\n            except: return False\nfor fn in ['assets/decor-bush.png','assets/decor-trees.png','assets/decor-tree.png']:\n    print\\(fn, 'has_alpha:', check_png_alpha\\(fn\\)\\)\n\")"
+    ]
+  }
+}

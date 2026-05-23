@@ -3,38 +3,17 @@
 
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Career Path</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Matt Jensen</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
-  <main>
-    <header class="site-header">
-      <div class="cloud cloud-a"></div>
-      <div class="cloud cloud-b"></div>
-      <h1 id="site-title">Matt Jensen</h1>
-      <p id="site-intro" class="intro">Loading…</p>
-    </header>
 
-    <section class="trail-wrap" aria-label="Career timeline">
-      <svg class="trail-svg" viewBox="0 0 100 1000" preserveAspectRatio="none" aria-hidden="true">
-        <path class="dirt-path-shadow"
-          d="M50 0 C15 90 85 165 54 245 C28 320 20 390 59 470 C92 545 70 625 42 700 C12 780 84 855 52 1000" />
-        <path class="dirt-path"
-          d="M50 0 C15 90 85 165 54 245 C28 320 20 390 59 470 C92 545 70 625 42 700 C12 780 84 855 52 1000" />
-      </svg>
-
-      <div class="tree tree-1"></div>
-      <div class="tree tree-2"></div>
-      <div class="tree tree-3"></div>
-      <div class="tree tree-4"></div>
-      <div class="tree tree-5"></div>
-      <div class="tree tree-6"></div>
-
-      <div id="timeline" class="timeline"></div>
-    </section>
-  </main>
+  <header class="page-header">
+    <p class="header-name">Matt Jensen</p>
+    <p class="header-sub">Helped Build:</p>
+  </header>
 
   <a class="linkedin-float" href="https://www.linkedin.com/in/mattjensen/" target="_blank" rel="noreferrer"
     aria-label="Matt Jensen on LinkedIn">
@@ -44,265 +23,322 @@
     </svg>
   </a>
 
+  <div class="timeline-scroller">
+
+    <!-- ─── Intro ─── -->
+    <div class="intro-slide" data-company="Intro">
+      <div class="cloud cloud-a"></div>
+      <div class="cloud cloud-b"></div>
+    </div>
+
+    <!-- ─── Limit Break ─── -->
+    <section class="company-slide" data-company="Limit Break">
+      <div class="hero-sky sky-stack">
+        <div class="cloud" style="left:8vw;top:12%"></div>
+        <div class="cloud" style="right:12vw;top:55%;transform:scale(.75)"></div>
+        <div class="sky-card" style="--sky-rot:-4deg;--sky-ar:1000/375">
+          <a href="https://limitbreak.com/en/products/puzzle-panic" target="_blank" rel="noreferrer">
+            <img src="assets/puzzle-panic-hero.png" alt="Puzzle Panic promotional artwork featuring characters and the game logo" loading="lazy">
+          </a>
+        </div>
+        <div class="sky-card" style="--sky-rot:3deg;--sky-ar:1000/382">
+          <img src="assets/puzzle-panic-stadium.png" alt="Puzzle Panic episode environment screenshot showing a colorful stadium" loading="lazy">
+        </div>
+        <div class="horizon-decor left" style="--decor-img:url('assets/decor-trees.png');--decor-w:160px"></div>
+      </div>
+      <div class="company-card">
+        <p class="period">2022–2025</p>
+        <div class="project-header">
+          <a class="logo-link" href="https://limitbreak.com" target="_blank" rel="noreferrer">
+            <img class="company-logo" src="assets/limit-break-logo.jpg" alt="Limit Break logo">
+          </a>
+          <div class="heading-block">
+            <a href="https://limitbreak.com/en/products/puzzle-panic" target="_blank" rel="noreferrer" class="copy-link">
+              <h2>Limit Break</h2>
+            </a>
+          </div>
+        </div>
+        <p class="description">Match 3 puzzle dungeon crawler</p>
+      </div>
+    </section>
+
+    <!-- ─── Bad Rabbit ─── -->
+    <section class="company-slide no-hero" data-company="Bad Rabbit">
+      <div class="cloud" style="left:22vw;top:18%"></div>
+      <div class="cloud" style="right:6vw;top:14%;transform:scale(.85)"></div>
+      <div class="company-card">
+        <p class="period">2020–2021</p>
+        <div class="project-header">
+          <a class="logo-link" href="https://www.linkedin.com/company/badrabbit/" target="_blank" rel="noreferrer">
+            <img class="company-logo" src="assets/badrabbit-logo.jpeg" alt="Bad Rabbit logo">
+          </a>
+          <div class="heading-block">
+            <a href="https://www.linkedin.com/company/badrabbit/" target="_blank" rel="noreferrer" class="copy-link">
+              <h2>Bad Rabbit</h2>
+            </a>
+          </div>
+        </div>
+        <p class="description">Consulting work customizing research administration app and greenfield projects.</p>
+      </div>
+    </section>
+
+    <!-- ─── Machine Zone ─── -->
+    <section class="company-slide" data-company="Machine Zone">
+      <div class="hero-sky sky-portrait-3">
+        <div class="cloud" style="left:5vw;top:26%"></div>
+        <div class="cloud" style="right:28vw;top:9%;transform:scale(.7)"></div>
+        <div class="sky-card" style="--sky-rot:-11deg;--sky-ar:250/385">
+          <a href="https://apps.apple.com/us/app/game-of-war-fire-age/id667728512"
+             data-android="https://play.google.com/store/apps/details?id=com.machinezone.gow"
+             class="store-link" target="_blank" rel="noreferrer">
+            <img src="assets/game-of-war.jpg" alt="Game of War: Fire Age promotional artwork" loading="lazy">
+          </a>
+        </div>
+        <div class="sky-card" style="--sky-rot:0deg;--sky-ar:250/385">
+          <a href="https://apps.apple.com/us/app/mobile-strike/id934596429"
+             data-android="https://play.google.com/store/apps/details?id=com.epicwaronline.ms"
+             class="store-link" target="_blank" rel="noreferrer">
+            <img src="assets/mobile-strike.jpg" alt="Mobile Strike promotional artwork" loading="lazy">
+          </a>
+        </div>
+        <div class="sky-card" style="--sky-rot:11deg;--sky-ar:735/1100">
+          <img src="assets/final-fantasy-xv-empire.jpg" alt="Final Fantasy XV: A New Empire promotional artwork" loading="lazy">
+        </div>
+        <div class="horizon-decor right" style="--decor-img:url('assets/decor-bush.png');--decor-w:140px"></div>
+      </div>
+      <div class="company-card">
+        <p class="period">2016–2018</p>
+        <div class="project-header">
+          <a class="logo-link" href="https://www.machinezone.com/" target="_blank" rel="noreferrer">
+            <img class="company-logo" src="assets/machine-zone-logo.png" alt="Machine Zone logo">
+          </a>
+          <div class="heading-block">
+            <a href="https://www.machinezone.com/" target="_blank" rel="noreferrer" class="copy-link">
+              <h2>Machine Zone</h2>
+            </a>
+          </div>
+        </div>
+        <p class="description">Features and frameworks for Game of War, Mobile Strike, and Final Fantasy XV: A New Empire.</p>
+      </div>
+    </section>
+
+    <!-- ─── SEGA Networks ─── -->
+    <section class="company-slide" data-company="SEGA Networks">
+      <div class="hero-sky sky-2-landscape">
+        <div class="cloud" style="left:32vw;top:15%"></div>
+        <div class="cloud" style="right:9vw;top:32%;transform:scale(.8)"></div>
+        <div class="sky-card" style="--sky-rot:-3deg;--sky-ar:1000/752">
+          <a href="https://howtotrainyourdragon.fandom.com/wiki/Gobber%27s_Dragon_Training_Games" target="_blank" rel="noreferrer">
+            <img src="assets/nadder.png" alt="How to Train Your Dragon Flash game screenshot" loading="lazy">
+          </a>
+        </div>
+        <div class="sky-card" style="--sky-rot:7deg;--sky-ar:1448/1086">
+          <a href="https://www.seankeeton.art/prototype-copy" target="_blank" rel="noreferrer">
+            <img src="assets/puyo-puyo-port.png" alt="Puyo Puyo Quest port screenshot" loading="lazy">
+          </a>
+        </div>
+        <div class="horizon-decor left" style="--decor-img:url('assets/decor-tree.png');--decor-w:150px"></div>
+      </div>
+      <div class="company-card">
+        <p class="period">2010–2016</p>
+        <div class="project-header">
+          <div class="logo-link">
+            <img class="company-logo" src="assets/sega-logo.jpeg" alt="SEGA Networks logo">
+          </div>
+          <div class="heading-block">
+            <h2>SEGA Networks</h2>
+          </div>
+        </div>
+        <p class="description">Ported Puzzle Pirates to mobile. Flash games for How to Train Your Dragon. Ported Puyo Puyo Quest.</p>
+      </div>
+    </section>
+
+    <!-- ─── Three Rings ─── -->
+    <section class="company-slide" data-company="Three Rings">
+      <div class="hero-sky">
+        <div class="cloud" style="left:8vw;top:12%"></div>
+        <div class="cloud" style="right:12vw;top:30%;transform:scale(.75)"></div>
+        <div class="sky-card" style="--sky-rot:-2deg;--sky-ar:600/438;--sky-w:min(82vw,600px)">
+          <a href="https://www.puzzlepirates.com" target="_blank" rel="noreferrer">
+            <img src="assets/puzzle-pirates.jpg" alt="Puzzle Pirates promotional artwork with pirates on a ship" loading="lazy">
+          </a>
+        </div>
+        <div class="horizon-decor right" style="--decor-img:url('assets/decor-rocks-pile.png');--decor-w:115px"></div>
+      </div>
+      <div class="company-card">
+        <p class="period">2008–2010</p>
+        <div class="project-header">
+          <a class="logo-link" href="https://www.greyhavens.co/" target="_blank" rel="noreferrer">
+            <img class="company-logo" src="assets/three-rings-logo.png" alt="Three Rings logo">
+          </a>
+          <div class="heading-block">
+            <a href="https://www.greyhavens.co/" target="_blank" rel="noreferrer" class="copy-link">
+              <h2>Three Rings</h2>
+            </a>
+          </div>
+        </div>
+        <p class="description">Puzzle Pirates, Spiral Knights, billing.</p>
+      </div>
+    </section>
+
+    <!-- ─── Perpetual Entertainment ─── -->
+    <section class="company-slide" data-company="Perpetual Entertainment">
+      <div class="hero-sky">
+        <div class="cloud" style="left:22vw;top:18%"></div>
+        <div class="cloud" style="right:6vw;top:14%;transform:scale(.85)"></div>
+        <div class="sky-card" style="--sky-rot:3deg;--sky-ar:352/500;--sky-w:min(52vw,300px)">
+          <a href="https://en.wikipedia.org/wiki/Perpetual_Entertainment" target="_blank" rel="noreferrer">
+            <img src="assets/gods-and-heroes.jpg" alt="Gods &amp; Heroes: Rome Rising promotional artwork" loading="lazy">
+          </a>
+        </div>
+        <div class="horizon-decor left" style="--decor-img:url('assets/decor-bushes.png');--decor-w:155px"></div>
+      </div>
+      <div class="company-card">
+        <p class="period">2007–2008</p>
+        <div class="project-header">
+          <a class="logo-link" href="https://en.wikipedia.org/wiki/Perpetual_Entertainment" target="_blank" rel="noreferrer">
+            <img class="company-logo" src="assets/perpetual-logo.png" alt="Perpetual Entertainment logo">
+          </a>
+          <div class="heading-block">
+            <a href="https://en.wikipedia.org/wiki/Perpetual_Entertainment" target="_blank" rel="noreferrer" class="copy-link">
+              <h2>Perpetual Entertainment</h2>
+            </a>
+          </div>
+        </div>
+        <p class="description">MMO platform for friends, guilds, billing, virtual currency, telemetry, and administration.</p>
+      </div>
+    </section>
+
+    <!-- ─── Wily Technology ─── -->
+    <section class="company-slide no-hero" data-company="Wily Technology">
+      <div class="cloud" style="left:5vw;top:26%"></div>
+      <div class="cloud" style="right:28vw;top:9%;transform:scale(.7)"></div>
+      <div class="company-card">
+        <p class="period">2005–2007</p>
+        <div class="project-header">
+          <a class="logo-link" href="https://en.wikipedia.org/wiki/Wily_Technology" target="_blank" rel="noreferrer">
+            <img class="company-logo" src="assets/wily-logo.png" alt="Wily Technology logo">
+          </a>
+          <div class="heading-block">
+            <a href="https://en.wikipedia.org/wiki/Wily_Technology" target="_blank" rel="noreferrer" class="copy-link">
+              <h2>Wily Technology</h2>
+            </a>
+          </div>
+        </div>
+        <p class="description">Internal tools</p>
+      </div>
+    </section>
+
+    <!-- ─── NightFire Software / Neustar ─── -->
+    <section class="company-slide no-hero" data-company="NightFire / Neustar">
+      <div class="cloud" style="left:32vw;top:15%"></div>
+      <div class="cloud" style="right:9vw;top:32%;transform:scale(.8)"></div>
+      <div class="company-card">
+        <p class="period">1998–2003</p>
+        <div class="project-header">
+          <a class="logo-link" href="https://home.neustar" target="_blank" rel="noreferrer">
+            <img class="company-logo" src="assets/nightfire-logo.png" alt="NightFire Software logo">
+          </a>
+          <div class="heading-block">
+            <a href="https://home.neustar" target="_blank" rel="noreferrer" class="copy-link">
+              <h2>NightFire / Neustar</h2>
+            </a>
+          </div>
+        </div>
+        <p class="description">Telecom order management and integration</p>
+      </div>
+    </section>
+
+  </div><!-- /.timeline-scroller -->
+
   <script>
-    async function loadCareer() {
-      const response = await fetch("career.json", { cache: "no-store" });
-      if (!response.ok) throw new Error("Could not load career.json");
-      return response.json();
-    }
-
-    function hideLink(anchor) {
-      const fragment = document.createDocumentFragment();
-      while (anchor.firstChild) fragment.appendChild(anchor.firstChild);
-      anchor.replaceWith(fragment);
-    }
-
-    function normalizeImages(project) {
-      if (Array.isArray(project.projectImages) && project.projectImages.length > 0) {
-        return project.projectImages.map((entry) => {
-          if (typeof entry === 'string') return { src: entry, alt: `${project.name} project image` };
-          return {
-            src: entry.src || entry.image || '',
-            alt: entry.alt || `${project.name} project image`,
-            aspect: entry.aspect || '',
-            url: entry.url || '',
-            links: entry.links || null
-          };
-        }).filter(Boolean);
+    // Keep --header-h in sync with actual header height
+    (function () {
+      const hdr = document.querySelector('.page-header');
+      function sync() {
+        document.documentElement.style.setProperty('--header-h', hdr.offsetHeight + 'px');
       }
-      if (project.heroImage) {
-        return [{ src: project.heroImage, alt: `${project.name} hero image` }];
+      sync();
+      new ResizeObserver(sync).observe(hdr);
+      document.fonts.ready.then(sync);
+    })();
+  </script>
+
+  <script>
+    const scroller = document.querySelector('.timeline-scroller');
+
+    // Translate vertical wheel → horizontal scroll on desktop
+    scroller.addEventListener('wheel', e => {
+      if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
+        e.preventDefault();
+        scroller.scrollLeft += e.deltaY;
       }
-      return [];
-    }
+    }, { passive: false });
 
-    function deviceStore() {
-      const agent = navigator.userAgent || '';
-      const platform = navigator.platform || '';
-      const hasTouch = navigator.maxTouchPoints > 1;
-      if (/android/i.test(agent)) return 'android';
-      if (/iPad|iPhone|iPod/i.test(agent)) return 'apple';
-      if (/Mac/i.test(platform) && hasTouch) return 'apple';
-      return 'apple';
-    }
-
-    function imageLink(image, fallbackUrl) {
-      if (!image.links) return image.url || fallbackUrl || '';
-      const store = deviceStore();
-      return image.links[store] || image.links.apple || image.links.android || image.url || fallbackUrl || '';
-    }
-
-    // Per-project hardcoded fan layouts.
-    // sceneHeight: fan-area height in px on desktop. Cards must fit within it.
-    // Cards: widthPct = % of fan-area width; aspect = "W/H"; top/left = % of fan-area.
-    //   When fromRight, left values are mirrored to right (so cards always hug the copy side).
-    const FAN_CONFIGS = {
-      "Limit Break": {
-        // 2 wide landscape images: hero big on left, stadium tucked behind-right
-        sceneHeight: 460,
-        cards: [
-          { widthPct: 68, aspect: "1000/375", rotate: -4, top: "8%",  left: "2%",  zIndex: 3 },
-          { widthPct: 62, aspect: "1000/382", rotate:  5, top: "30%", left: "20%", zIndex: 2 },
-        ]
-      },
-      "Machine Zone": {
-        // 3 portrait cards splayed like a hand. All hug the left (copy) side.
-        sceneHeight: 500,
-        cards: [
-          { widthPct: 25, aspect: "250/385",  rotate: -11, top: "4%",  left: "2%",  zIndex: 4 },
-          { widthPct: 25, aspect: "250/385",  rotate:   0, top: "1%",  left: "23%", zIndex: 3 },
-          { widthPct: 25, aspect: "735/1100", rotate:  11, top: "4%",  left: "44%", zIndex: 2 },
-        ]
-      },
-      "SEGA Networks": {
-        // Nadder card big, Puyo tucked behind. Both wide/square, hug left.
-        sceneHeight: 460,
-        cards: [
-          { widthPct: 62, aspect: "1000/752",  rotate: -3, top: "6%",  left: "2%",  zIndex: 3 },
-          { widthPct: 46, aspect: "1448/1086", rotate:  7, top: "20%", left: "36%", zIndex: 2 },
-        ]
-      },
-      "Three Rings": {
-        // Single Puzzle Pirates wide card. Hug the copy side.
-        // At 850px fanArea: 60% = 510px. H = 510 / (600/438) = 372px. Top 5% = 24px. Bottom = 396px < 460px. ✓
-        sceneHeight: 460,
-        cards: [
-          { widthPct: 60, aspect: "600/438", rotate: -2, top: "6%", left: "4%", zIndex: 2 },
-        ]
-      },
-      "Perpetual Entertainment": {
-        // Natural from-right (index 5). Fan LEFT, copy RIGHT.
-        // left value is mirrored to right: left:"5%" → right:"5%" = card hugs copy on right side.
-        sceneHeight: 480,
-        cards: [
-          { widthPct: 40, aspect: "352/500", rotate: 3, top: "5%", left: "5%", zIndex: 2 },
-        ]
-      },
-    };
-
-    function aspectRatio(str) {
-      const [w, h] = str.split('/').map(Number);
-      return w / h;
-    }
-
-    function buildFanArea(images, project, fromRight) {
-      const cfg = FAN_CONFIGS[project.name];
-      const fanArea = document.createElement('div');
-      fanArea.className = 'fan-area';
-
-      if (!cfg) return fanArea;
-
-      // --scene-h drives desktop height via CSS; mobile ignores it (height: auto)
-      fanArea.style.setProperty('--scene-h', cfg.sceneHeight + 'px');
-
-      cfg.cards.forEach((cardCfg, i) => {
-        const image = images[i];
-        if (!image) return;
-
-        const href = imageLink(image, project.url);
-        const card = document.createElement('div');
-        card.className = 'fan-card';
-
-        const ratio = aspectRatio(cardCfg.aspect);
-        if (ratio >= 1.35) card.classList.add('fan-card-wide');
-        else if (ratio <= 0.9) card.classList.add('fan-card-portrait');
-        else card.classList.add('fan-card-square');
-
-        // CSS custom properties: desktop CSS reads these for absolute positioning.
-        // Mobile CSS overrides position/size with shape classes and ignores these.
-        card.style.setProperty('--fan-ar',  ratio);
-        card.style.setProperty('--fan-rot', cardCfg.rotate + 'deg');
-        card.style.setProperty('--fan-w',   cardCfg.widthPct + '%');
-        card.style.setProperty('--fan-top', cardCfg.top);
-        card.style.setProperty('--fan-z',   cardCfg.zIndex);
-        // Mirror left→right when fan is on left side (fromRight cards)
-        if (fromRight) {
-          card.style.setProperty('--fan-left',  'auto');
-          card.style.setProperty('--fan-right', cardCfg.left);
-        } else {
-          card.style.setProperty('--fan-left',  cardCfg.left);
-          card.style.setProperty('--fan-right', 'auto');
-        }
-
-        // z-index boost on hover (desktop only — touch devices don't fire mouseenter)
-        card.addEventListener('mouseenter', () => card.style.setProperty('--fan-z', '20'));
-        card.addEventListener('mouseleave', () => card.style.setProperty('--fan-z', cardCfg.zIndex));
-
-        const inner = href ? document.createElement('a') : document.createElement('div');
-        inner.style.cssText = 'display:block;width:100%;height:100%;';
-        if (href) { inner.href = href; inner.target = '_blank'; inner.rel = 'noreferrer'; }
-        const img = document.createElement('img');
-        img.src = image.src;
-        img.alt = image.alt;
-        img.style.cssText = 'display:block;width:100%;height:100%;object-fit:cover;';
-        inner.appendChild(img);
-        card.appendChild(inner);
-        fanArea.appendChild(card);
+    // Android app store link detection
+    if (/android/i.test(navigator.userAgent)) {
+      document.querySelectorAll('.store-link[data-android]').forEach(a => {
+        a.href = a.dataset.android;
       });
-
-      return fanArea;
     }
 
-    function renderProject(project, index) {
-      const fromRight = index % 2 !== 0;
-      const article = document.createElement('article');
-      article.className = 'project-card ' + (fromRight ? 'from-right' : 'from-left');
+    // Navigation dots + arrows
+    (function () {
+      const allSlides = [...scroller.querySelectorAll('[data-company]')];
 
-      const images = normalizeImages(project);
+      const nav = document.createElement('nav');
+      nav.className = 'slide-dots';
+      nav.setAttribute('aria-label', 'Career timeline navigation');
 
-      // Copy panel
-      const copy = document.createElement('div');
-      copy.className = 'project-copy';
-
-      const period = document.createElement('p');
-      period.className = 'period';
-      period.textContent = project.period || '';
-      copy.appendChild(period);
-
-      const header = document.createElement('div');
-      header.className = 'project-header';
-
-      const companyLogo = project.companyLogo || project.logoImage || '';
-      if (companyLogo) {
-        const logoLink = document.createElement('a');
-        logoLink.className = 'logo-link';
-        if (project.url) { logoLink.href = project.url; logoLink.target = '_blank'; logoLink.rel = 'noreferrer'; }
-        const logoImg = document.createElement('img');
-        logoImg.className = 'company-logo';
-        logoImg.src = companyLogo;
-        logoImg.alt = `${project.name || 'Company'} logo`;
-        logoLink.appendChild(logoImg);
-        header.appendChild(logoLink);
-      }
-
-      const headingBlock = document.createElement('div');
-      headingBlock.className = 'heading-block';
-
-      const titleLink = document.createElement('a');
-      titleLink.className = 'copy-link title-link';
-      if (project.url) { titleLink.href = project.url; titleLink.target = '_blank'; titleLink.rel = 'noreferrer'; }
-      const h2 = document.createElement('h2');
-      h2.textContent = project.name || 'Untitled Project';
-      titleLink.appendChild(h2);
-      headingBlock.appendChild(titleLink);
-      header.appendChild(headingBlock);
-
-      // Description is a full-width row below logo+title
-      const descLink = document.createElement('a');
-      descLink.className = 'copy-link description-link';
-      descLink.style.cssText = 'width:100%;flex-basis:100%;';
-      if (project.url) { descLink.href = project.url; descLink.target = '_blank'; descLink.rel = 'noreferrer'; }
-      const desc = document.createElement('p');
-      desc.className = 'description';
-      desc.style.margin = '0';
-      desc.textContent = project.description || '';
-      descLink.appendChild(desc);
-      header.appendChild(descLink);
-
-      copy.appendChild(header);
-
-      const scene = document.createElement('div');
-      scene.className = 'card-scene';
-
-      if (images.length === 0) {
-        article.classList.add('no-hero');
-        scene.appendChild(copy);
-      } else {
-        const fanArea = buildFanArea(images, project, fromRight);
-        // fanArea always first in DOM so mobile (column layout) shows hero ABOVE company card.
-        // Desktop CSS uses row-reverse for from-left to visually put copy on the left.
-        scene.appendChild(fanArea);
-        scene.appendChild(copy);
-      }
-
-      article.appendChild(scene);
-
-      return article;
-    }
-
-    function setupRevealAnimation() {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) entry.target.classList.add('visible');
+      const dots = allSlides.map((slide, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'dot' + (i === 0 ? ' active' : '');
+        btn.setAttribute('aria-label', slide.dataset.company || `Slide ${i + 1}`);
+        btn.addEventListener('click', () => {
+          slide.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
         });
-      }, { threshold: 0.15 });
-      document.querySelectorAll('.project-card').forEach(card => observer.observe(card));
-    }
-
-    loadCareer()
-      .then(data => {
-        document.title = data.siteTitle || 'Career Path';
-        document.getElementById('site-title').textContent = data.siteTitle || 'Career Path';
-        document.getElementById('site-intro').textContent = data.intro || '';
-        const timeline = document.getElementById('timeline');
-        timeline.innerHTML = '';
-        (data.projects || []).forEach((project, index) => timeline.appendChild(renderProject(project, index)));
-        setupRevealAnimation();
-      })
-      .catch(error => {
-        document.getElementById('site-intro').textContent = 'Could not load career.json. Make sure you are serving this folder with a local web server.';
-        console.error(error);
+        nav.appendChild(btn);
+        return btn;
       });
+
+      const prevBtn = document.createElement('button');
+      prevBtn.className = 'nav-arrow prev';
+      prevBtn.setAttribute('aria-label', 'Previous slide');
+      prevBtn.style.visibility = 'hidden';
+
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'nav-arrow next';
+      nextBtn.setAttribute('aria-label', 'Next slide');
+      if (allSlides.length <= 1) nextBtn.style.visibility = 'hidden';
+
+      let currentIdx = 0;
+
+      prevBtn.addEventListener('click', () => {
+        if (currentIdx > 0) allSlides[currentIdx - 1].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+      });
+      nextBtn.addEventListener('click', () => {
+        if (currentIdx < allSlides.length - 1) allSlides[currentIdx + 1].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+      });
+
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const idx = allSlides.indexOf(entry.target);
+          if (idx !== -1) {
+            currentIdx = idx;
+            dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+            prevBtn.style.visibility = idx === 0 ? 'hidden' : 'visible';
+            nextBtn.style.visibility = idx === allSlides.length - 1 ? 'hidden' : 'visible';
+          }
+        });
+      }, { threshold: 0.6, root: scroller });
+
+      allSlides.forEach(slide => io.observe(slide));
+
+      document.body.appendChild(prevBtn);
+      document.body.appendChild(nextBtn);
+      document.body.appendChild(nav);
+    })();
   </script>
 </body>
 

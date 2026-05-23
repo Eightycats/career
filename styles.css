@@ -3,178 +3,237 @@
 :root {
   --sky: #bce7ff;
   --grass: #8bd36d;
-  --grass-dark: #4b9d45;
-  --path: #c39158;
-  --path-dark: #8b5a35;
   --ink: #263322;
   --paper: #fff7df;
-  --leaf: #2f9d52;
-  --leaf-dark: #1d6f3c;
-  --horizon-y: 380px;
+  --horizon-y: 70dvh;
+  --header-h: 0px;
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; overflow-x: hidden; }
-body {
+h1, h2, p { margin: 0; }
+button { padding: 0; background: none; border: none; cursor: pointer; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
   margin: 0;
+}
+
+body {
   font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--ink);
-  background:
-    radial-gradient(circle at 20% 20%, rgba(255,255,255,.65) 0 8%, transparent 9%),
-    linear-gradient(var(--sky) 0 var(--horizon-y), var(--grass) var(--horizon-y)) var(--grass);
+  background: linear-gradient(var(--sky) 0 var(--horizon-y), var(--grass) var(--horizon-y)) var(--grass);
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  overflow-x: hidden;
+}
+
+/* ─── Fixed title header ─── */
+.page-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: .5rem 1rem .4rem;
+  pointer-events: none;
+}
+.header-name {
+  font-weight: 900;
+  font-size: clamp(2.8rem, 11vw, 9rem);
+  line-height: .92;
+  text-shadow: 0 5px 0 rgba(255,255,255,.65);
+  letter-spacing: .01em;
+}
+.header-sub {
+  font-size: clamp(.75rem, 2.5vw, 1.1rem);
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #35653b;
+  margin-top: .2rem;
 }
 
 /* ─── LinkedIn badge ─── */
 .linkedin-float {
   position: fixed;
-  right: clamp(1rem, 2vw, 1.5rem);
-  top: clamp(1rem, 2vw, 1.5rem);
-  z-index: 20;
+  top: clamp(.5rem, 1.5vw, 1rem);
+  right: clamp(.5rem, 1.5vw, 1rem);
+  z-index: 60;
   display: grid;
   place-items: center;
-  width: 48px; height: 48px;
+  width: 36px; height: 36px;
   color: #0a66c2;
   opacity: .58;
   transition: opacity .18s ease, transform .18s ease;
 }
-.linkedin-float:hover, .linkedin-float:focus-visible { opacity: .9; transform: translateY(-2px); }
-.linkedin-float:focus-visible { outline: 3px solid rgba(10,102,194,.35); outline-offset: 4px; border-radius: 8px; }
+.linkedin-float:hover { opacity: .9; transform: translateY(-2px); }
+.linkedin-float:focus-visible { opacity: .9; transform: translateY(-2px); outline: 3px solid rgba(10,102,194,.35); outline-offset: 4px; border-radius: 8px; }
 .linkedin-float svg { display: block; width: 100%; height: 100%; fill: currentColor; filter: drop-shadow(0 3px 0 rgba(38,51,34,.16)); }
 
-/* ─── Header ─── */
-.site-header {
-  min-height: var(--horizon-y);
+/* ─── Horizontal scroll container ─── */
+.timeline-scroller {
+  display: flex;
+  width: 100vw;
+  height: calc(100dvh - var(--header-h));
+  margin-top: var(--header-h);
+  overflow-x: scroll;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.timeline-scroller::-webkit-scrollbar { display: none; }
+
+/* ─── Intro slide ─── */
+.intro-slide {
+  flex: 0 0 100vw;
+  height: calc(100dvh - var(--header-h));
+  scroll-snap-align: start;
   position: relative;
-  display: grid;
-  place-content: center;
-  text-align: center;
-  padding: 4rem 1.5rem 3rem;
   overflow: hidden;
-}
-.site-header > * { position: relative; z-index: 1; }
-h1 { margin: 0; font-size: clamp(2.8rem, 8vw, 7rem); line-height: .92; text-shadow: 0 5px 0 rgba(255,255,255,.65); }
-.intro { max-width: 720px; margin: 1.25rem auto 0; font-size: clamp(1rem, 2vw, 1.4rem); text-transform: uppercase; letter-spacing: .18em; color: #35653b; }
-.cloud { position: absolute; width: 170px; height: 54px; background: white; border-radius: 999px; opacity: .9; box-shadow: 0 5px 0 rgba(0,0,0,.06); }
-.cloud::before, .cloud::after { content: ""; position: absolute; background: white; border-radius: 50%; }
-.cloud::before { width: 72px; height: 72px; left: 24px; top: -32px; }
-.cloud::after  { width: 92px; height: 92px; right: 20px; top: -45px; }
-.cloud-a { left: 7vw; top: 18vh; }
-.cloud-b { right: 9vw; top: 30vh; transform: scale(.75); }
-
-/* ─── Trail ─── */
-.trail-wrap {
-  position: relative;
-  min-height: 5800px;
-  margin-top: -1px;
-  padding: 4rem 1rem 12rem;
-  background:
-    radial-gradient(circle at 18% 10%, rgba(255,255,255,.12) 0 3px, transparent 4px),
-    radial-gradient(circle at 70% 35%, rgba(255,255,255,.12) 0 3px, transparent 4px),
-    linear-gradient(90deg, #78c862, #9add74 35%, #90d86c 70%, #6fbd5b);
-}
-.trail-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-.dirt-path-shadow, .dirt-path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.dirt-path-shadow { stroke: rgba(82,53,32,.25); stroke-width: 18; transform: translateY(4px); }
-.dirt-path { stroke: var(--path); stroke-width: 15; filter: drop-shadow(0 6px 0 rgba(92,55,31,.22)); }
-
-/* No z-index on timeline = no stacking context, so trees (z-index:6) beat cards (z-index:5) in the gaps */
-.timeline { position: relative; max-width: 1400px; margin: 0 auto; }
-
-/* ─── Project card — MOBILE FIRST ─── */
-.project-card {
-  position: relative;
-  z-index: 5;
-  margin-bottom: 4rem;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity .65s ease, transform .65s ease;
-}
-.project-card.visible { opacity: 1; transform: none; }
-
-/* Column by default: fan on top, copy below */
-.card-scene {
   display: flex;
   flex-direction: column;
-  width: 100%;
-}
-
-/* ─── Fan area — mobile ─── */
-.fan-area {
-  display: flex;
-  flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
-  align-items: flex-start;
-  gap: 0.5rem;
-  padding: 0.75rem 0.75rem 0;
+  text-align: center;
+  padding: 2rem 2rem clamp(200px, 38dvh, 320px);
 }
 
-/* ─── Fan cards — mobile ─── */
-/* All cards: no rotation, no absolute positioning, z-index via custom prop */
-.fan-card {
-  display: block;
-  flex: 0 0 auto;
+/* ─── Company slide ─── */
+.company-slide {
+  flex: 0 0 100vw;
+  height: calc(100dvh - var(--header-h));
+  scroll-snap-align: start;
   position: relative;
-  z-index: var(--fan-z, 1);
-  aspect-ratio: var(--fan-ar, 1.5);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Sky area — hero cards float here ─── */
+.hero-sky {
+  flex: 1 1 0;
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ─── Sky cards ─── */
+.sky-card {
+  flex: 0 0 auto;
+  width: var(--sky-w, min(82vw, 680px));
+  aspect-ratio: var(--sky-ar, 4/3);
   background: var(--paper);
   border: 5px solid var(--ink);
-  border-radius: 18px;
+  border-radius: 22px;
   overflow: hidden;
-  box-shadow: 5px 7px 0 rgba(38,51,34,.2);
-  /* No rotation on mobile — prevents all the overlap weirdness */
-  transform: none;
-  transition: box-shadow .2s ease;
-}
-
-/* Primary card (first child): large and prominent */
-.fan-card:first-child {
-  flex: 1 1 calc(100% - 1.5rem);
-  max-width: 500px;
-}
-.fan-card-portrait:first-child {
-  /* Portrait cards: don't stretch to full width */
-  flex: 0 0 auto;
-  width: min(52%, 210px);
-}
-
-/* Secondary cards: compact thumbnails */
-.fan-card:not(:first-child) {
-  flex: 0 0 auto;
-  width: 100px;
-  aspect-ratio: 4/3;
-  border-radius: 12px;
-  border-width: 4px;
-}
-
-.fan-card img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.fan-card a   { display: block; width: 100%; height: 100%; }
-
-/* ─── Copy panel — mobile ─── */
-.project-copy {
+  box-shadow: 10px 12px 0 rgba(38,51,34,.22);
+  transform: rotate(var(--sky-rot, 0deg));
+  transition: transform .2s ease, box-shadow .2s ease;
+  cursor: pointer;
   position: relative;
-  z-index: 10;
-  width: calc(100% - 1.5rem);
-  margin: 0.75rem auto 0;
+  z-index: 2;
+}
+.sky-card:hover {
+  transform: rotate(var(--sky-rot, 0deg)) translateY(-10px);
+  box-shadow: 14px 18px 0 rgba(38,51,34,.3);
+}
+.sky-card img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.sky-card a   { display: block; width: 100%; height: 100%; }
+
+/* ─── Per-slide sky layout variants ─── */
+
+/* Limit Break: 2 very-wide images stacked vertically */
+.sky-stack {
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.sky-stack .sky-card {
+  width: min(88vw, 560px);
+}
+
+/* Machine Zone: 3 portrait cards, height-capped to avoid overflow */
+.sky-portrait-3 {
+  gap: 1rem;
+}
+.sky-portrait-3 .sky-card {
+  /* cap height at ~45dvh by deriving max-width from portrait ratio (250/385 ≈ 0.649) */
+  width: min(calc((88vw - 2rem) / 3), calc(45dvh * 0.649));
+}
+
+/* SEGA Networks: 2 landscape cards, modest max-width */
+.sky-2-landscape .sky-card {
+  width: min(calc((88vw - 1.5rem) / 2), 440px);
+}
+
+/* ─── Company card — bottom info strip ─── */
+.company-card {
+  flex: 0 0 auto;
+  align-self: center;
+  width: min(calc(100vw - 2rem), 680px);
   background: rgba(255,247,223,.97);
   border: 4px solid var(--ink);
   border-radius: 26px;
   padding: 1.25rem;
   box-shadow: 8px 8px 0 rgba(38,51,34,.18);
+  margin: 0 auto 1.5rem;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
 }
 
-/* No-hero: just a centered copy card */
-.project-card.no-hero .card-scene { display: block; }
-.project-card.no-hero .project-copy { width: min(100%, 680px); margin: 0 auto; }
+/* No-hero: card centered in the sky area (padding-bottom offsets for the grass region) */
+.company-slide.no-hero {
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 20dvh;
+}
+.company-slide.no-hero .company-card {
+  margin: auto;
+}
 
-/* ─── Copy internals ─── */
-.period { margin: 0 0 .6rem; color: #6c663d; font-weight: 900; letter-spacing: .07em; text-transform: uppercase; font-size: .85rem; }
-.project-header { display: flex; flex-wrap: wrap; align-items: center; gap: .65rem .85rem; }
+/* ─── Decorative horizon elements ─── */
+.horizon-decor {
+  position: absolute;
+  bottom: -50px;
+  aspect-ratio: 1;
+  width: var(--decor-w, 130px);
+  background: var(--decor-img) bottom center / contain no-repeat;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  z-index: 1;
+}
+.horizon-decor.left  { left:  clamp(4px, 2.5vw, 2.5rem); }
+.horizon-decor.right { right: clamp(4px, 2.5vw, 2.5rem); }
+
+/* ─── Card internals ─── */
+.period {
+  color: #6c663d;
+  font-weight: 900;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  font-size: .85rem;
+  line-height: 1;
+}
+.project-header {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  flex-wrap: nowrap;
+}
 .logo-link { display: inline-block; flex: 0 0 auto; }
 .company-logo {
-  width: 64px; height: 64px;
+  width: 60px; height: 60px;
   object-fit: contain;
   border-radius: 14px;
   border: 4px solid var(--ink);
@@ -182,107 +241,93 @@ h1 { margin: 0; font-size: clamp(2.8rem, 8vw, 7rem); line-height: .92; text-shad
   box-shadow: 3px 3px 0 rgba(38,51,34,.15);
 }
 .heading-block { flex: 1 1 0; min-width: 0; }
-h2 { margin: 0; font-size: clamp(1.25rem, 4.5vw, 2rem); line-height: 1.1; }
-.description { margin: 0; font-size: clamp(.88rem, 3.5vw, 1.1rem); line-height: 1.5; }
+h2 { font-size: clamp(1.25rem, 4.5vw, 1.9rem); line-height: 1.1; }
+.description { font-size: clamp(.85rem, 3vw, 1.05rem); line-height: 1.5; }
+
 a, a:visited, a:hover, a:focus, a:active { color: inherit; text-decoration: none; }
-.copy-link { color: inherit; text-decoration: none; }
-.copy-link:hover h2, .copy-link:hover .description, .logo-link:hover { filter: brightness(1.02); }
-.copy-link.description-link { display: inline-block; padding: .35rem .1rem; }
+.copy-link:hover h2 { filter: brightness(.75); }
 
-/* ─── Decorative trees ───
-   z-index 6 > individual project-card z-index 5 (since .timeline has no z-index,
-   no blocking stacking context is created, so trees beat cards in gap areas). ─── */
-.tree {
+/* ─── Clouds (decorative) ─── */
+.cloud {
   position: absolute;
-  z-index: 4;
-  width: var(--decor-width, 140px);
-  aspect-ratio: 1;
-  background: var(--decor-image, none) center / contain no-repeat;
+  width: 170px; height: 54px;
+  background: white;
+  border-radius: 999px;
+  opacity: 1;
+  box-shadow: 0 5px 0 rgba(0,0,0,.06);
   pointer-events: none;
-  mix-blend-mode: multiply;
+  z-index: 1;
+}
+.cloud::before, .cloud::after { content: ""; position: absolute; background: white; border-radius: 50%; }
+.cloud::before { width: 72px; height: 72px; left: 24px; top: -32px; }
+.cloud::after  { width: 92px; height: 92px; right: 20px; top: -45px; }
+.cloud-a { left: 7vw; top: 18vh; }
+.cloud-b { right: 9vw; top: 30vh; transform: scale(.75); }
+
+/* ─── Nav arrows ─── */
+.nav-arrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  width: 44px;
+  height: 64px;
+  background: rgba(255,247,223,.75);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 2px solid rgba(38,51,34,.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .18s ease;
+  cursor: pointer;
+}
+.nav-arrow:hover { background: rgba(255,247,223,.95); }
+.nav-arrow.prev { left: 0; border-radius: 0 12px 12px 0; border-left: none; }
+.nav-arrow.next { right: 0; border-radius: 12px 0 0 12px; border-right: none; }
+.nav-arrow.prev::before {
+  content: '';
+  display: block;
+  border-style: solid;
+  border-width: 10px 14px 10px 0;
+  border-color: transparent var(--ink) transparent transparent;
+}
+.nav-arrow.next::before {
+  content: '';
+  display: block;
+  border-style: solid;
+  border-width: 10px 0 10px 14px;
+  border-color: transparent transparent transparent var(--ink);
 }
 
-/*
-  Target the vertical gaps between project cards.
-  Estimated positions (4rem top-pad + stacked card heights + 14rem desktop gaps):
-  Limit Break ends ~580px  → tree-1 at 660px
-  Bad Rabbit ends ~960px   → tree-2 at 1050px
-  Machine Zone ends ~1590px→ tree-3 at 1700px
-  SEGA ends ~2180px        → tree-4 at 2290px
-  Three Rings ends ~2750px → tree-5 at 2850px
-  Perpetual ends ~3340px   → tree-6 at 3450px
-*/
-.tree-1 { --decor-image: url("assets/decor-trees.png");      --decor-width: 175px; left: 15%;  top: 660px;  }
-.tree-2 { --decor-image: url("assets/decor-rocks-grass.png");--decor-width: 130px; left: 65%;  top: 1050px; }
-.tree-3 { --decor-image: url("assets/decor-bush.png");       --decor-width: 145px; left: 9%;   top: 1700px; }
-.tree-4 { --decor-image: url("assets/decor-tree.png");       --decor-width: 155px; left: 69%;  top: 2290px; }
-.tree-5 { --decor-image: url("assets/decor-rocks-pile.png"); --decor-width: 130px; left: 13%;  top: 2850px; }
-.tree-6 { --decor-image: url("assets/decor-bushes.png");     --decor-width: 160px; left: 64%;  top: 3450px; }
-
-/* ─── Desktop overrides (≥ 821px) ─── */
-@media (min-width: 821px) {
-  .trail-wrap { padding-top: 6rem; }
-
-  .project-card { margin-bottom: 14rem; }
-
-  /* DOM order is always [fanArea, copy].
-     from-right → row  → fan LEFT  | copy RIGHT  (matches DOM)
-     from-left  → row-reverse → copy LEFT | fan RIGHT (reverses DOM) */
-  .project-card.from-right .card-scene { flex-direction: row;         align-items: center; }
-  .project-card.from-left  .card-scene { flex-direction: row-reverse; align-items: center; }
-
-  /* Fixed-width copy panel on desktop */
-  .project-copy {
-    flex: 0 0 auto;
-    width: clamp(320px, 36%, 500px);
-    margin: 0;
-    padding: clamp(1.25rem, 2.5vw, 2rem);
-  }
-  .project-card.from-right .project-copy { margin-left: -2.5rem; }
-  .project-card.from-left  .project-copy { margin-right: -2.5rem; }
-
-  /* Fan area: sized by --scene-h CSS var set from JS */
-  .fan-area {
-    flex: 1 1 0;
-    min-width: 0;
-    position: relative;
-    display: block;
-    padding: 0;
-    gap: 0;
-    height: var(--scene-h, 420px);
-  }
-
-  /* Fan cards: absolutely positioned, rotated, precise placement on desktop */
-  .fan-card {
-    position: absolute;
-    width: var(--fan-w, 60%);
-    top: var(--fan-top, 5%);
-    left: var(--fan-left, auto);
-    right: var(--fan-right, auto);
-    z-index: var(--fan-z, 2);
-    aspect-ratio: var(--fan-ar, 1.5);
-    border-radius: 22px;
-    transform: rotate(var(--fan-rot, 0deg));
-    cursor: pointer;
-  }
-  /* Override mobile primary/thumbnail rules — all cards use --fan-w on desktop */
-  .fan-card:first-child      { flex: unset; max-width: unset; }
-  .fan-card:not(:first-child){ flex: unset; width: var(--fan-w, 60%); aspect-ratio: var(--fan-ar, 1.5); border-radius: 22px; border-width: 5px; }
-  .fan-card-portrait:first-child { flex: unset; width: var(--fan-w, 60%); }
-  .fan-card-wide, .fan-card-portrait, .fan-card-square { width: var(--fan-w, 60%); }
-
-  .fan-card:hover {
-    box-shadow: 14px 18px 0 rgba(38,51,34,.3);
-    transform: rotate(var(--fan-rot, 0deg)) translateY(-12px) scale(1.03);
-    z-index: 20 !important;
-  }
-
-  .company-logo { width: 72px; height: 72px; }
-  h2 { font-size: clamp(1.4rem, 2.5vw, 2rem); }
+/* ─── Slide navigation dots ─── */
+.slide-dots {
+  position: fixed;
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: .5rem;
+  z-index: 40;
+  background: rgba(255,255,255,.35);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 999px;
+  padding: .4rem .75rem;
+  border: 1.5px solid rgba(38,51,34,.12);
 }
+.dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  background: transparent;
+  opacity: .45;
+  transition: background .2s ease, transform .2s ease, opacity .2s ease;
+}
+.dot.active { background: var(--ink); transform: scale(1.4); opacity: 1; }
+.dot:hover { opacity: .75; }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .project-card { opacity: 1; transform: none; transition: none; }
-  .fan-card { transition: none; }
+  .sky-card { transition: none; }
+  .timeline-scroller { scroll-snap-type: none; }
 }
