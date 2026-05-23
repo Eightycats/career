@@ -204,10 +204,10 @@ body {
 /* ─── Decorative horizon elements ─── */
 .horizon-decor {
   position: absolute;
-  bottom: calc(100dvh - var(--horizon-y) - 6dvh);
+  bottom: calc(100dvh - var(--horizon-y) - var(--decor-w, 130px) / 2);
   aspect-ratio: 1;
   width: var(--decor-w, 130px);
-  background: var(--decor-img) bottom center / contain no-repeat;
+  background: var(--decor-img) center / contain no-repeat;
   pointer-events: none;
   z-index: 1;
 }
