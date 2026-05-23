@@ -80,6 +80,7 @@
         </div>
         <p class="description">Consulting work customizing research administration app and greenfield projects.</p>
       </div>
+      <div class="horizon-decor right" style="--decor-img:url('assets/decor-rocks-grass.png');--decor-w:120px;bottom:30dvh"></div>
     </section>
 
     <!-- ─── Machine Zone ─── -->
@@ -227,6 +228,7 @@
         </div>
         <p class="description">Internal tools</p>
       </div>
+      <div class="horizon-decor left" style="--decor-img:url('assets/decor-bushes.png');--decor-w:155px;bottom:30dvh"></div>
     </section>
 
     <!-- ─── NightFire Software / Neustar ─── -->
@@ -247,6 +249,7 @@
         </div>
         <p class="description">Telecom order management and integration</p>
       </div>
+      <div class="horizon-decor right" style="--decor-img:url('assets/decor-tree.png');--decor-w:150px;bottom:30dvh"></div>
     </section>
 
   </div><!-- /.timeline-scroller -->
@@ -282,24 +285,9 @@
       });
     }
 
-    // Navigation dots + arrows
+    // Navigation arrows
     (function () {
       const allSlides = [...scroller.querySelectorAll('[data-company]')];
-
-      const nav = document.createElement('nav');
-      nav.className = 'slide-dots';
-      nav.setAttribute('aria-label', 'Career timeline navigation');
-
-      const dots = allSlides.map((slide, i) => {
-        const btn = document.createElement('button');
-        btn.className = 'dot' + (i === 0 ? ' active' : '');
-        btn.setAttribute('aria-label', slide.dataset.company || `Slide ${i + 1}`);
-        btn.addEventListener('click', () => {
-          slide.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
-        });
-        nav.appendChild(btn);
-        return btn;
-      });
 
       const prevBtn = document.createElement('button');
       prevBtn.className = 'nav-arrow prev';
@@ -326,7 +314,6 @@
           const idx = allSlides.indexOf(entry.target);
           if (idx !== -1) {
             currentIdx = idx;
-            dots.forEach((d, i) => d.classList.toggle('active', i === idx));
             prevBtn.style.visibility = idx === 0 ? 'hidden' : 'visible';
             nextBtn.style.visibility = idx === allSlides.length - 1 ? 'hidden' : 'visible';
           }
@@ -337,7 +324,6 @@
 
       document.body.appendChild(prevBtn);
       document.body.appendChild(nextBtn);
-      document.body.appendChild(nav);
     })();
   </script>
 </body>
