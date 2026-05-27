@@ -255,15 +255,14 @@ a, a:visited, a:hover, a:focus, a:active { color: inherit; text-decoration: none
 }
 
 @keyframes drift-left {
-  from { transform: translateX(120vw); }
-  to   { transform: translateX(-250px); }
+  from { transform: translateX(120vw) scale(var(--sc, 1)); }
+  to   { transform: translateX(-250px) scale(var(--sc, 1)); }
 }
 
 .cloud {
   position: absolute;
   left: 0;
   top: var(--top, 15%);
-  scale: var(--sc, 1);
   width: 170px; height: 54px;
   background: white;
   border-radius: 999px;
