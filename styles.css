@@ -334,4 +334,21 @@ a, a:visited, a:hover, a:focus, a:active { color: inherit; text-decoration: none
     border-bottom: none;
     border-radius: 10px 0 0 0;
   }
+
+  /* SEGA Networks: stack vertically and enlarge on mobile */
+  .sky-2-landscape {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .sky-2-landscape .sky-card {
+    width: min(78vw, 360px);
+  }
+  .sky-2-landscape .sky-card:nth-child(1) {
+    z-index: 3;
+  }
+  .sky-2-landscape .sky-card:nth-child(2) {
+    margin-top: -2.5rem;
+    z-index: 2;
+  }
 }
