@@ -245,22 +245,36 @@ h2 { font-size: clamp(1.25rem, 4.5vw, 1.9rem); line-height: 1.1; }
 a, a:visited, a:hover, a:focus, a:active { color: inherit; text-decoration: none; }
 .copy-link:hover h2 { filter: brightness(.75); }
 
-/* ─── Clouds (decorative) ─── */
+/* ─── Drifting clouds layer ─── */
+.clouds-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+@keyframes drift-left {
+  from { transform: translateX(120vw); }
+  to   { transform: translateX(-250px); }
+}
+
 .cloud {
   position: absolute;
+  left: 0;
+  top: var(--top, 15%);
+  scale: var(--sc, 1);
   width: 170px; height: 54px;
   background: white;
   border-radius: 999px;
-  opacity: 1;
   box-shadow: 0 5px 0 rgba(0,0,0,.06);
   pointer-events: none;
-  z-index: 1;
+  animation: drift-left var(--spd, 40s) linear infinite;
+  animation-delay: var(--dly, 0s);
 }
 .cloud::before, .cloud::after { content: ""; position: absolute; background: white; border-radius: 50%; }
 .cloud::before { width: 72px; height: 72px; left: 24px; top: -32px; }
 .cloud::after  { width: 92px; height: 92px; right: 20px; top: -45px; }
-.cloud-a { left: 7vw; top: 18vh; }
-.cloud-b { right: 9vw; top: 30vh; transform: scale(.75); }
 
 /* ─── Nav arrows ─── */
 .nav-arrow {
@@ -300,4 +314,5 @@ a, a:visited, a:hover, a:focus, a:active { color: inherit; text-decoration: none
 @media (prefers-reduced-motion: reduce) {
   .sky-card { transition: none; }
   .timeline-scroller { scroll-snap-type: none; }
+  .cloud { animation: none; }
 }
