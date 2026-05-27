@@ -344,8 +344,8 @@ a, a:visited, a:hover, a:focus, a:active { color: inherit; text-decoration: none
     padding-bottom: 2rem;
   }
   .sky-2-landscape .sky-card {
-    width: min(76vw, 340px);
-    max-height: 28dvh;
+    width: auto;
+    height: min(23dvh, 190px);
   }
   .sky-2-landscape .sky-card:nth-child(1) {
     z-index: 3;
