@@ -40,12 +40,18 @@ body {
   pointer-events: none;
 }
 .header-name {
+  pointer-events: auto;
   font-weight: 900;
   font-size: clamp(2.8rem, 11vw, 9rem);
   line-height: .92;
   color: #4884A8;
   text-shadow: 0 5px 0 rgba(255,255,255,.65);
   letter-spacing: .01em;
+}
+.header-name:focus-visible {
+  outline: 4px solid rgba(72,132,168,.45);
+  outline-offset: 6px;
+  border-radius: 12px;
 }
 .header-sub {
   font-size: clamp(.75rem, 2.5vw, 1.1rem);
@@ -54,6 +60,13 @@ body {
   text-transform: uppercase;
   color: #4884A8;
   margin-top: .2rem;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity .18s ease, transform .18s ease;
+}
+body.is-at-intro .header-sub {
+  opacity: 0;
+  transform: translateY(-.35rem);
 }
 
 /* ─── LinkedIn badge ─── */
@@ -100,6 +113,35 @@ body {
   justify-content: center;
   text-align: center;
   padding: 2rem 2rem clamp(200px, 38dvh, 320px);
+}
+
+.career-sign-next {
+  width: min(52vw, 360px);
+  aspect-ratio: 1;
+  display: block;
+  position: absolute;
+  left: min(72vw, calc(100vw - 180px));
+  bottom: calc(30dvh - min(26vw, 180px));
+  z-index: 4;
+  transform: translateX(-50%) rotate(-2deg);
+  filter: drop-shadow(8px 12px 0 rgba(38,51,34,.18));
+  transition: transform .18s ease, filter .18s ease;
+}
+.career-sign-next:hover {
+  transform: translateX(-50%) rotate(-2deg) translateY(-8px);
+  filter: drop-shadow(10px 16px 0 rgba(38,51,34,.24));
+}
+.career-sign-next:focus-visible {
+  outline: 4px solid rgba(72,132,168,.45);
+  outline-offset: 6px;
+  border-radius: 18px;
+}
+.career-sign-next img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
 }
 
 /* ─── Company slide ─── */

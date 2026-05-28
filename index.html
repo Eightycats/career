@@ -11,7 +11,7 @@
 <body>
 
   <header class="page-header">
-    <p class="header-name">Matt Jensen</p>
+    <a class="header-name" href="https://www.linkedin.com/in/mattjensen/" target="_blank" rel="noreferrer">Matt Jensen</a>
     <p class="header-sub">Helped Build:</p>
   </header>
 
@@ -35,6 +35,9 @@
 
     <!-- ─── Intro ─── -->
     <div class="intro-slide" data-company="Intro">
+      <button class="career-sign-next" type="button" aria-label="Next slide">
+        <img src="assets/career.png" alt="" aria-hidden="true">
+      </button>
     </div>
 
     <!-- ─── Limit Break ─── -->
@@ -274,6 +277,11 @@
 
   <script>
     const scroller = document.querySelector('.timeline-scroller');
+    const syncIntroState = () => {
+      document.body.classList.toggle('is-at-intro', scroller.scrollLeft < 8);
+    };
+    syncIntroState();
+    scroller.addEventListener('scroll', syncIntroState, { passive: true });
 
     // Translate vertical wheel → horizontal scroll on desktop
     scroller.addEventListener('wheel', e => {
@@ -306,12 +314,15 @@
 
       let currentIdx = 0;
 
-      prevBtn.addEventListener('click', () => {
+      const goPrev = () => {
         if (currentIdx > 0) allSlides[currentIdx - 1].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
-      });
-      nextBtn.addEventListener('click', () => {
+      };
+      const goNext = () => {
         if (currentIdx < allSlides.length - 1) allSlides[currentIdx + 1].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
-      });
+      };
+
+      prevBtn.addEventListener('click', goPrev);
+      nextBtn.addEventListener('click', goNext);
 
       const io = new IntersectionObserver(entries => {
         entries.forEach(entry => {
@@ -329,6 +340,8 @@
 
       document.body.appendChild(prevBtn);
       document.body.appendChild(nextBtn);
+
+      document.querySelector('.career-sign-next')?.addEventListener('click', goNext);
     })();
   </script>
 </body>
