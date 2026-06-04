@@ -33,8 +33,36 @@
 
   <div class="timeline-scroller">
 
+    <!-- ─── Match 3 Game (project) ─── -->
+    <section class="project-slide company-slide" data-company="Match 3 Game">
+      <div class="hero-sky sky-2-portrait">
+        <div class="sky-card" style="--sky-rot:-4deg;--sky-ar:579/995">
+          <a href="https://match3.eightycats.com" target="_blank" rel="noreferrer">
+            <img src="assets/match3-screenshot.png" alt="Match 3 Game screenshot showing dungeon room with puzzle grid" loading="lazy">
+          </a>
+        </div>
+        <div class="sky-card" style="--sky-rot:4deg;--sky-ar:1/1">
+          <a href="https://match3.eightycats.com" target="_blank" rel="noreferrer">
+            <img src="assets/match3-doggie.png" alt="Dog monster character in pirate gear" loading="lazy">
+          </a>
+        </div>
+      </div>
+      <div class="company-card">
+        <div class="project-header">
+          <div class="heading-block">
+            <h2>Match 3 Game</h2>
+          </div>
+        </div>
+        <p class="description">A Match 3 puzzle dungeon crawler.</p>
+      </div>
+      <div class="horizon-decor right" style="--decor-img:url('assets/decor-castle.png');--decor-w:130px"></div>
+    </section>
+
     <!-- ─── Intro ─── -->
     <div class="intro-slide" data-company="Intro">
+      <button class="projects-sign-prev" type="button" aria-label="Previous slide">
+        <img src="assets/projects.png" alt="" aria-hidden="true">
+      </button>
       <button class="career-sign-next" type="button" aria-label="Next slide">
         <img src="assets/career.png" alt="" aria-hidden="true">
       </button>
@@ -277,9 +305,19 @@
 
   <script>
     const scroller = document.querySelector('.timeline-scroller');
+    const introSlide = scroller.querySelector('.intro-slide');
+    const headerSub = document.querySelector('.header-sub');
     const syncIntroState = () => {
-      document.body.classList.toggle('is-at-intro', scroller.scrollLeft < 8);
+      const introLeft = introSlide ? introSlide.offsetLeft : 0;
+      document.body.classList.toggle('is-at-intro', Math.abs(scroller.scrollLeft - introLeft) < 8);
+      if (headerSub) {
+        headerSub.textContent = scroller.scrollLeft < introLeft ? 'Built:' : 'Helped Build:';
+      }
     };
+    // Start at intro slide (project slides are to its left)
+    if (introSlide && introSlide.offsetLeft > 0) {
+      scroller.scrollLeft = introSlide.offsetLeft;
+    }
     syncIntroState();
     scroller.addEventListener('scroll', syncIntroState, { passive: true });
 
@@ -342,6 +380,7 @@
       document.body.appendChild(nextBtn);
 
       document.querySelector('.career-sign-next')?.addEventListener('click', goNext);
+      document.querySelector('.projects-sign-prev')?.addEventListener('click', goPrev);
     })();
   </script>
 </body>
