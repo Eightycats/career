@@ -411,6 +411,20 @@ a, a:visited, a:hover, a:focus, a:active { color: inherit; text-decoration: none
     border-radius: 10px 0 0 0;
   }
 
+  /* Intro signs: shrink and spread so they don't overlap on narrow screens */
+  .projects-sign-prev,
+  .career-sign-next {
+    width: min(44vw, 300px);
+  }
+  .projects-sign-prev {
+    left: 24vw;
+    bottom: calc(30dvh - min(22vw, 150px));
+  }
+  .career-sign-next {
+    left: 76vw;
+    bottom: calc(30dvh - min(22vw, 150px));
+  }
+
   /* SEGA Networks: stack vertically and enlarge on mobile */
   .sky-2-landscape {
     flex-direction: column;
