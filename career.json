@@ -3,6 +3,23 @@
   "intro": "Helped build:",
   "projects": [
     {
+      "name": "Card Memorization Trainer",
+      "url": "https://eightycats.github.io/cards",
+      "description": "Trains the user to remember unique names and images for each card in a deck.",
+      "projectImages": [
+        {
+          "src": "assets/cards-card.png",
+          "alt": "Four of Spades card showing a knight in armor with a mace",
+          "aspect": "514 / 760"
+        },
+        {
+          "src": "assets/cards-grid.png",
+          "alt": "Grid view of the Hearts suit showing all 13 cards with unique illustrated names",
+          "aspect": "894 / 1454"
+        }
+      ]
+    },
+    {
       "name": "Limit Break",
       "period": "2022-2025",
       "heroImage": "assets/limit-break.svg",
