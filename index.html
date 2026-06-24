@@ -417,7 +417,7 @@
       const introLeft = introSlide ? introSlide.offsetLeft : 0;
       document.body.classList.toggle('is-at-intro', Math.abs(scroller.scrollLeft - introLeft) < 8);
       if (headerSub) {
-        headerSub.textContent = scroller.scrollLeft < introLeft ? 'Built:' : 'Helped Build:';
+        headerSub.textContent = scroller.scrollLeft < introLeft ? 'Projects:' : 'Career:';
       }
     };
     // Start at intro slide (project slides are to its left)
